@@ -1,6 +1,5 @@
 buildscript {
     repositories {
-        jcenter()
         maven { url = "http://files.minecraftforge.net/maven" }
     }
     dependencies {
@@ -38,10 +37,8 @@ repositories {
         url = "https://maven.blamejared.com/"
     }
     maven {
-        url = "http://maven.ic2.player.to"
-    }
-    maven {
-        url "http://tehnut.info/maven"
+        name = "CurseMaven"
+        url = "https://cursemaven.com"
     }
     maven {
         name = "ChickenBones maven"
@@ -62,11 +59,11 @@ repositories {
 dependencies {
     deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.+"
     deobfCompile "mezz.jei:jei_1.12.2:+"
-    deobfCompile "mcp.mobius.waila:Hwyla:1.8+"
+    deobfCompile "curse.maven:hwyla-253449:2568753"
     deobfCompile "gregtechce:gregtech:${minecraft_version}:${gt_version}"
     deobfCompile "codechicken:ChickenASM:1.12-+"
     deobfCompile "codechicken-lib-1-8:CodeChickenLib-1.12.2:3.2.3.357:universal"
-    deobfCompile "forge-multipart-cbe:ForgeMultipart-1.12.2:2.6.2.83:universal"
+    deobfCompile "curse.maven:cb-multipart-258426:2755790"
     deobfCompile "codechicken:ChickenASM:${short_version}-${chickenasm_version}"
     deobfCompile "slimeknights.mantle:Mantle:${short_version}-${mantle_version}"
     deobfCompile "slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}"
