@@ -119,7 +119,7 @@ public class Materials {
                 gregtech.api.unification.material.Materials.Tin.getFluid(1));
 
         TinkerRegistry.registerAlloy(gregtech.api.unification.material.Materials.Invar.getFluid(3),
-                gregtech.api.unification.material.Materials.Iron.getFluid(1),
+                gregtech.api.unification.material.Materials.Iron.getFluid(2),
                 gregtech.api.unification.material.Materials.Nickel.getFluid(1));
 
         TinkerRegistry.registerAlloy(gregtech.api.unification.material.Materials.BatteryAlloy.getFluid(5),
