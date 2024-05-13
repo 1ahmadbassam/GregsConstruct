@@ -1,5 +1,6 @@
 package gregsconstruct;
 
+import gregtech.api.GTValues;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.material.Materials;
@@ -12,16 +13,16 @@ import net.minecraftforge.fluids.FluidStack;
 import slimeknights.tconstruct.shared.TinkerCommons;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 public class GtRecipes {
     public static void init() {
         //Glass
-        removeRecipesByInputs(new ItemStack(Blocks.GLASS));
-        removeRecipesByInputs(new ItemStack(Blocks.STAINED_GLASS));
-        removeRecipesByInputs(new ItemStack(Blocks.GLASS_PANE));
-        removeRecipesByInputs(new ItemStack(Blocks.STAINED_GLASS_PANE));
+        removeRecipesByInputs(new ItemStack(Blocks.GLASS, 1, GTValues.W));
+        removeRecipesByInputs(new ItemStack(Blocks.STAINED_GLASS, 1, GTValues.W));
+        removeRecipesByInputs(new ItemStack(Blocks.GLASS_PANE, 1, GTValues.W));
+        removeRecipesByInputs(new ItemStack(Blocks.STAINED_GLASS_PANE, 1, GTValues.W));
         removeRecipesByInputs(new ItemStack(Items.GLASS_BOTTLE));
         removeRecipesByInputs(OreDictUnifier.get(OrePrefix.dust, Materials.Quartzite));
         removeRecipesByInputs(OreDictUnifier.get(OrePrefix.dust, Materials.Glass));
@@ -33,7 +34,10 @@ public class GtRecipes {
         removeRecipesByInputs(OreDictUnifier.get(OrePrefix.plate, Materials.Glass));
         removeRecipesByInputs(OreDictUnifier.get(OrePrefix.lens, Materials.Glass));
 
-        RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).input(OrePrefix.block, Materials.Glass).fluidOutputs(Materials.Glass.getFluid(1000)).buildAndRegister();
+        RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).inputs(new ItemStack(Blocks.GLASS, 1, GTValues.W)).fluidOutputs(Materials.Glass.getFluid(1000)).buildAndRegister();
+        RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).inputs(new ItemStack(Blocks.GLASS_PANE, 1, GTValues.W)).fluidOutputs(Materials.Glass.getFluid(375)).buildAndRegister();
+        RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).inputs(new ItemStack(Blocks.STAINED_GLASS, 1, GTValues.W)).fluidOutputs(Materials.Glass.getFluid(1000)).buildAndRegister();
+        RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).inputs(new ItemStack(Blocks.STAINED_GLASS_PANE, 1, GTValues.W)).fluidOutputs(Materials.Glass.getFluid(375)).buildAndRegister();
         RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).input(OrePrefix.dust, Materials.Glass).fluidOutputs(Materials.Glass.getFluid(1000)).buildAndRegister();
         RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).input(OrePrefix.gem, Materials.Glass).fluidOutputs(Materials.Glass.getFluid(1000)).buildAndRegister();
         RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).inputs(new ItemStack(Items.GLASS_BOTTLE)).fluidOutputs(Materials.Glass.getFluid(1000)).buildAndRegister();
@@ -54,29 +58,19 @@ public class GtRecipes {
     }
 
     private static void removeRecipesByInputs(ItemStack... itemInputs) {
-        List<ItemStack> inputs = new ArrayList<>();
-        for (ItemStack s : itemInputs)
-            inputs.add(s);
-        RecipeMaps.FLUID_EXTRACTION_RECIPES.removeRecipe(RecipeMaps.FLUID_EXTRACTION_RECIPES.findRecipe(Integer.MAX_VALUE, inputs, Collections.EMPTY_LIST, Integer.MAX_VALUE));
+        List<ItemStack> inputs = new ArrayList<>(Arrays.asList(itemInputs));
+        RecipeMaps.FLUID_EXTRACTION_RECIPES.removeRecipe(RecipeMaps.FLUID_EXTRACTION_RECIPES.findRecipe(Integer.MAX_VALUE, inputs, new ArrayList<>(), Integer.MAX_VALUE));
     }
 
     private static void removeRecipesByInputs(ItemStack[] itemInputs, FluidStack[] fluidInputs) {
-        List<ItemStack> itemIn = new ArrayList<>();
-        for (ItemStack s : itemInputs)
-            itemIn.add(s);
-        List<FluidStack> fluidIn = new ArrayList<>();
-        for (FluidStack s : fluidInputs)
-            fluidIn.add(s);
+        List<ItemStack> itemIn = new ArrayList<>(Arrays.asList(itemInputs));
+        List<FluidStack> fluidIn = new ArrayList<>(Arrays.asList(fluidInputs));
         RecipeMaps.FLUID_SOLIDFICATION_RECIPES.removeRecipe(RecipeMaps.FLUID_SOLIDFICATION_RECIPES.findRecipe(Integer.MAX_VALUE, itemIn, fluidIn, Integer.MAX_VALUE));
     }
 
     private static void removeRecipesByInputs(ItemStack[] itemInputs, FluidStack[] fluidInputs, int voltage) {
-        List<ItemStack> itemIn = new ArrayList<>();
-        for (ItemStack s : itemInputs)
-            itemIn.add(s);
-        List<FluidStack> fluidIn = new ArrayList<>();
-        for (FluidStack s : fluidInputs)
-            fluidIn.add(s);
+        List<ItemStack> itemIn = new ArrayList<>(Arrays.asList(itemInputs));
+        List<FluidStack> fluidIn = new ArrayList<>(Arrays.asList(fluidInputs));
         RecipeMaps.FLUID_SOLIDFICATION_RECIPES.removeRecipe(RecipeMaps.FLUID_SOLIDFICATION_RECIPES.findRecipe(voltage, itemIn, fluidIn, Integer.MAX_VALUE));
     }
 }
