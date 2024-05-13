@@ -8,6 +8,7 @@ import gregtech.api.unification.ore.OrePrefix;
 import gregtech.common.items.MetaItems;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import slimeknights.tconstruct.shared.TinkerCommons;
@@ -19,10 +20,10 @@ import java.util.List;
 public class GtRecipes {
     public static void init() {
         //Glass
-        removeRecipesByInputs(new ItemStack(Blocks.GLASS, 1, GTValues.W));
-        removeRecipesByInputs(new ItemStack(Blocks.STAINED_GLASS, 1, GTValues.W));
-        removeRecipesByInputs(new ItemStack(Blocks.GLASS_PANE, 1, GTValues.W));
-        removeRecipesByInputs(new ItemStack(Blocks.STAINED_GLASS_PANE, 1, GTValues.W));
+        removeRecipesByInputs(new ItemStack(new ItemBlock(Blocks.GLASS), 1, GTValues.W));
+        removeRecipesByInputs(new ItemStack(new ItemBlock(Blocks.STAINED_GLASS), 1, GTValues.W));
+        removeRecipesByInputs(new ItemStack(new ItemBlock(Blocks.GLASS_PANE), 1, GTValues.W));
+        removeRecipesByInputs(new ItemStack(new ItemBlock(Blocks.STAINED_GLASS_PANE), 1, GTValues.W));
         removeRecipesByInputs(new ItemStack(Items.GLASS_BOTTLE));
         removeRecipesByInputs(OreDictUnifier.get(OrePrefix.dust, Materials.Quartzite));
         removeRecipesByInputs(OreDictUnifier.get(OrePrefix.dust, Materials.Glass));
