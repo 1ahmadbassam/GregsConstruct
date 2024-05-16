@@ -20,10 +20,10 @@ import java.util.List;
 public class GtRecipes {
     public static void init() {
         //Glass
-        removeRecipesByInputs(new ItemStack(new ItemBlock(Blocks.GLASS), 1, GTValues.W));
-        removeRecipesByInputs(new ItemStack(new ItemBlock(Blocks.STAINED_GLASS), 1, GTValues.W));
-        removeRecipesByInputs(new ItemStack(new ItemBlock(Blocks.GLASS_PANE), 1, GTValues.W));
-        removeRecipesByInputs(new ItemStack(new ItemBlock(Blocks.STAINED_GLASS_PANE), 1, GTValues.W));
+        removeRecipesByInputs(new ItemStack(Blocks.GLASS));
+        removeRecipesByInputs(new ItemStack(Blocks.STAINED_GLASS));
+        removeRecipesByInputs(new ItemStack(Blocks.GLASS_PANE));
+        removeRecipesByInputs(new ItemStack(Blocks.STAINED_GLASS_PANE));
         removeRecipesByInputs(new ItemStack(Items.GLASS_BOTTLE));
         removeRecipesByInputs(OreDictUnifier.get(OrePrefix.dust, Materials.Quartzite));
         removeRecipesByInputs(OreDictUnifier.get(OrePrefix.dust, Materials.Glass));
@@ -35,10 +35,10 @@ public class GtRecipes {
         removeRecipesByInputs(OreDictUnifier.get(OrePrefix.plate, Materials.Glass));
         removeRecipesByInputs(OreDictUnifier.get(OrePrefix.lens, Materials.Glass));
 
-        RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).inputs(new ItemStack(Blocks.GLASS, 1, GTValues.W)).fluidOutputs(Materials.Glass.getFluid(1000)).buildAndRegister();
-        RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).inputs(new ItemStack(Blocks.GLASS_PANE, 1, GTValues.W)).fluidOutputs(Materials.Glass.getFluid(375)).buildAndRegister();
-        RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).inputs(new ItemStack(Blocks.STAINED_GLASS, 1, GTValues.W)).fluidOutputs(Materials.Glass.getFluid(1000)).buildAndRegister();
-        RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).inputs(new ItemStack(Blocks.STAINED_GLASS_PANE, 1, GTValues.W)).fluidOutputs(Materials.Glass.getFluid(375)).buildAndRegister();
+        RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).inputs(new ItemStack(Blocks.GLASS)).fluidOutputs(Materials.Glass.getFluid(1000)).buildAndRegister();
+        RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).inputs(new ItemStack(Blocks.GLASS_PANE)).fluidOutputs(Materials.Glass.getFluid(375)).buildAndRegister();
+        RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).inputs(new ItemStack(Blocks.STAINED_GLASS)).fluidOutputs(Materials.Glass.getFluid(1000)).buildAndRegister();
+        RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).inputs(new ItemStack(Blocks.STAINED_GLASS_PANE)).fluidOutputs(Materials.Glass.getFluid(375)).buildAndRegister();
         RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).input(OrePrefix.dust, Materials.Glass).fluidOutputs(Materials.Glass.getFluid(1000)).buildAndRegister();
         RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).input(OrePrefix.gem, Materials.Glass).fluidOutputs(Materials.Glass.getFluid(1000)).buildAndRegister();
         RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).inputs(new ItemStack(Items.GLASS_BOTTLE)).fluidOutputs(Materials.Glass.getFluid(1000)).buildAndRegister();

@@ -9,17 +9,14 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.Logger;
 import slimeknights.tconstruct.library.events.TinkerRegisterEvent;
 
-@Mod(modid = GregsConstruct.MODID,
-        name = GregsConstruct.NAME,
-        version = GregsConstruct.VERSION,
-        dependencies = "required-after:gregtech;required-after:tconstruct"
-)
+@Mod(modid = GregsConstruct.MODID, name = GregsConstruct.NAME, version = GregsConstruct.VERSION, dependencies = "required-after:gregtech;required-after:tconstruct")
 public class GregsConstruct {
     public static final String MODID = "gtconstruct";
     public static final String NAME = "Greg's Construct";
@@ -34,9 +31,17 @@ public class GregsConstruct {
         Materials.preInit();
     }
 
+    @Mod.EventHandler
+    public void onPostInit(FMLPostInitializationEvent event) {
+        events.onPostLoad();
+    }
+
     @Mod.EventBusSubscriber
     public static class events {
-        @SubscribeEvent(priority = EventPriority.LOW)
+        public static void onPostLoad() {
+        }
+
+        @SubscribeEvent(priority = EventPriority.LOWEST)
         public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
             GtRecipes.init();
         }
