@@ -5,6 +5,7 @@ import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.material.type.IngotMaterial;
 import gregtech.api.unification.material.type.Material;
 import gregtech.api.unification.ore.OrePrefix;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -48,6 +49,8 @@ public class GregsConstruct {
         GCTinkers.unifyAluminium();
         GCMaterials.init();
         GCRecipes.furnaceRecipes();
+        GCTinkers.furnaceRecipes();
+        GCTinkers.initEnhancedIntegration();
         // Recipe generation is done at init, to ensure that alloy recipes are
         // registered if needed before they are removed from the alloy smelter
         GCTinkers.init();
@@ -77,7 +80,8 @@ public class GregsConstruct {
         public static void basinCastingRemoval(TinkerRegisterEvent.BasinCastingRegisterEvent event) {
             if (event.getRecipe() instanceof CastingRecipe)
                 if (((CastingRecipe) event.getRecipe()).getFluid().isFluidEqual(new FluidStack(TinkerFluids.aluminum, 1))
-                        || (((CastingRecipe) event.getRecipe()).getFluid().isFluidEqual(new FluidStack(TinkerFluids.alubrass, 1))))
+                        || (((CastingRecipe) event.getRecipe()).getFluid().isFluidEqual(new FluidStack(TinkerFluids.alubrass, 1)))
+                        || (((CastingRecipe) event.getRecipe()).getFluid().isFluidStackIdentical(new FluidStack(TinkerFluids.obsidian, 288))))
                     event.setCanceled(true);
         }
 
@@ -93,6 +97,9 @@ public class GregsConstruct {
                 event.setCanceled(true);
             for (ItemStack sand : OreDictionary.getOres("sand"))
                 if (event.getRecipe().matches(sand) && event.getRecipe().getResult().getFluid() == TinkerFluids.glass)
+                    event.setCanceled(true);
+            for (ItemStack obs : OreDictionary.getOres("obsidian"))
+                if (event.getRecipe().matches(obs) && event.getRecipe().getResult().isFluidStackIdentical(new FluidStack(TinkerFluids.obsidian, 288)))
                     event.setCanceled(true);
             for (Material mat : Material.MATERIAL_REGISTRY)
                 if (mat instanceof IngotMaterial && ((IngotMaterial) mat).blastFurnaceTemperature > 0 && (matches(event, OrePrefix.ore, mat) || matches(event, OrePrefix.dust, mat) || matches(event, OrePrefix.dustSmall, mat) || matches(event, OrePrefix.dustTiny, mat)))
