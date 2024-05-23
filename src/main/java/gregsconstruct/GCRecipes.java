@@ -1,6 +1,7 @@
 package gregsconstruct;
 
 import gregtech.api.GTValues;
+import gregtech.api.recipes.ModHandler;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.material.Materials;
@@ -8,18 +9,17 @@ import gregtech.api.unification.ore.OrePrefix;
 import gregtech.common.items.MetaItems;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import slimeknights.tconstruct.shared.TinkerCommons;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GtRecipes {
-    public static void init() {
-        //Glass
+public class GCRecipes {
+    public static void glassRecipes() {
         removeRecipesByInputs(new ItemStack(Blocks.GLASS));
         removeRecipesByInputs(new ItemStack(Blocks.STAINED_GLASS));
         removeRecipesByInputs(new ItemStack(Blocks.GLASS_PANE));
@@ -49,6 +49,7 @@ public class GtRecipes {
         RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).input(OrePrefix.plate, Materials.Glass).fluidOutputs(Materials.Glass.getFluid(1000)).buildAndRegister();
         RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).input(OrePrefix.lens, Materials.Glass).fluidOutputs(Materials.Glass.getFluid(750)).buildAndRegister();
         RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(28).input(OrePrefix.dust, Materials.Quartzite).fluidOutputs(Materials.Glass.getFluid(500)).buildAndRegister();
+        RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(80).EUt(32).inputs(new ItemStack(TinkerCommons.blockClearGlass)).fluidOutputs(Materials.Glass.getFluid(1000)).buildAndRegister();
 
         removeRecipesByInputs(new ItemStack[]{MetaItems.SHAPE_MOLD_BLOCK.getStackForm()}, new FluidStack[]{Materials.Glass.getFluid(144)});
         removeRecipesByInputs(new ItemStack[]{MetaItems.SHAPE_MOLD_PLATE.getStackForm()}, new FluidStack[]{Materials.Glass.getFluid(144)}, 4);
@@ -56,6 +57,14 @@ public class GtRecipes {
 
         RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().duration(18).EUt(4).notConsumable(MetaItems.SHAPE_MOLD_BLOCK.getStackForm()).fluidInputs(Materials.Glass.getFluid(1000)).outputs(new ItemStack(TinkerCommons.blockClearGlass)).buildAndRegister();
         RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().duration(18).EUt(4).notConsumable(MetaItems.SHAPE_MOLD_PLATE.getStackForm()).fluidInputs(Materials.Glass.getFluid(1000)).outputs(OreDictUnifier.get(OrePrefix.plate, Materials.Glass)).buildAndRegister();
+        RecipeMaps.ARC_FURNACE_RECIPES.recipeBuilder().duration(480).EUt(30).inputs(new ItemStack(TinkerCommons.blockClearGlass)).fluidInputs(Materials.Oxygen.getFluid(480)).outputs(new ItemStack(Blocks.GLASS)).buildAndRegister();
+        RecipeMaps.PLASMA_ARC_FURNACE_RECIPES.recipeBuilder().duration(30).EUt(10).inputs(new ItemStack(TinkerCommons.blockClearGlass)).fluidInputs(Materials.Argon.getPlasma(1)).fluidOutputs(Materials.Argon.getFluid(1)).outputs(new ItemStack(Blocks.GLASS)).buildAndRegister();
+        RecipeMaps.PLASMA_ARC_FURNACE_RECIPES.recipeBuilder().duration(30).EUt(10).inputs(new ItemStack(TinkerCommons.blockClearGlass)).fluidInputs(Materials.Nitrogen.getPlasma(2)).fluidOutputs(Materials.Argon.getFluid(2)).outputs(new ItemStack(Blocks.GLASS)).buildAndRegister();
+    }
+
+    public static void furnaceRecipes() {
+        ModHandler.removeFurnaceSmelting(new ItemStack(Blocks.SAND, 1, GTValues.W));
+        GameRegistry.addSmelting(new ItemStack(TinkerCommons.blockClearGlass), new ItemStack(Blocks.GLASS), 0.1f);
     }
 
     private static void removeRecipesByInputs(ItemStack... itemInputs) {

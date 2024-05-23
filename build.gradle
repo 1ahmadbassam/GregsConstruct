@@ -1,6 +1,6 @@
 buildscript {
     repositories {
-        maven { url = "http://files.minecraftforge.net/maven" }
+        maven { url = "https://files.minecraftforge.net/maven" }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
@@ -11,7 +11,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "${minecraft_version}-${mod_version}"
 group = "gregsconstruct"
-archivesBaseName = "GregsConstruct"
+archivesBaseName = "GregsConstructUnofficial"
 
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava {
@@ -30,7 +30,7 @@ minecraft {
 repositories {
     maven {
         name = "Progwml6 maven"
-        url = "http://dvs1.progwml6.com/files/maven/"
+        url = "https://dvs1.progwml6.com/files/maven/"
     }
     maven {
         name = "CraftTweaker Maven"
@@ -42,14 +42,14 @@ repositories {
     }
     maven {
         name = "ChickenBones maven"
-        url = "http://chickenbones.net/maven/"
+        url = "https://chickenbones.net/maven/"
     }
     maven {
         url = "https://mod-buildcraft.com/maven/"
     }
     maven {
         name = "tterrag maven"
-        url = "http://maven.tterrag.com/"
+        url = "https://maven.tterrag.com/"
     }
     maven {
         url "https://minecraft.curseforge.com/api/maven"
@@ -67,6 +67,7 @@ dependencies {
     deobfCompile "codechicken:ChickenASM:${short_version}-${chickenasm_version}"
     deobfCompile "slimeknights.mantle:Mantle:${short_version}-${mantle_version}"
     deobfCompile "slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}"
+    compile files("libs/GregicAdditionsUnofficial-${minecraft_version}-${gtadditions_version}.jar")
 }
 
 processResources {
