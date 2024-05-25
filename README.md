@@ -16,6 +16,7 @@ Some of the design features of this mod are most fitting in GregBlock; however, 
 standalone and configuration options for those features are provided.
 
 For an enhanced GregTech CE experience bringing over GT5U and GT6 features to GTCE, check out [GregicAdditions Unofficial](https://github.com/1ahmadbassam/GregicAdditionsUnofficial)
+
 **Note: This mod is _not_ for [GregTech CE: Unofficial](https://github.com/GregTechCEu/GregTech)! However, if you would like to port it, please let me know! I am unfamiliar with GTCEu's
 APIs, and GregBlock is currently stuck on GTCE, so I will not likely be the one doing the port.**
 
