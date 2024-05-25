@@ -22,7 +22,7 @@ minecraft {
     version = "${minecraft_version}-14.23.5.2838"
     runDir = "run"
     mappings = "stable_39"
-    makeObfSourceJar = false
+    makeObfSourceJar = true
     replace("@VERSION@",project.version)
     replaceIn("GregsConstruct.java")
 }
