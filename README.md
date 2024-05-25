@@ -1,7 +1,11 @@
 # Greg's Construct Unofficial
 An add-on for [GregTech Community Edition](https://github.com/GregTechCE/GregTech) and [Tinker's Construct](https://github.com/SlimeKnights/TinkersConstruct), integrating both mods together seamlessly.
 
+## [CurseForge Release](https://legacy.curseforge.com/minecraft/mc-mods/gregs-construct-unofficial/)
+
 ## Description
+**If you find a bug, [please let me know](https://github.com/1ahmadbassam/GregsConstructUnofficial/issues)!**
+
 This mod is a fork of the original Greg's Construct, with deeply enhanced integration and fixing of many bugs. 
 This fork was originally intended to be an update for Greg's Construct to GTCE 1.17, but has now developed into a fully
 fledged addon for extended integration of Tinker's Construct into the GregTech ecosystem.
@@ -11,8 +15,7 @@ Most ideas of this mod are implemented in the popular modpack [GregBlock](https:
 Some of the design features of this mod are most fitting in GregBlock; however, this mod is fully
 standalone and configuration options for those features are provided.
 
-For an enhanced GregTech CE experience bringing over GT5U and GT6 features to GTCE, check out [GregicAdditions Unofficial](https://legacy.curseforge.com/minecraft/mc-mods/gregicadditions-unofficial/)
-
+For an enhanced GregTech CE experience bringing over GT5U and GT6 features to GTCE, check out [GregicAdditions Unofficial](https://github.com/1ahmadbassam/GregicAdditionsUnofficial)
 **Note: This mod is _not_ for [GregTech CE: Unofficial](https://github.com/GregTechCEu/GregTech)! However, if you would like to port it, please let me know! I am unfamiliar with GTCEu's
 APIs, and GregBlock is currently stuck on GTCE, so I will not likely be the one doing the port.**
 
