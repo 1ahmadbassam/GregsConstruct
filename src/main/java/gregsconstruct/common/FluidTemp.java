@@ -1,4 +1,4 @@
-package gregsconstruct;
+package gregsconstruct.common;
 
 import gregicadditions.GAMaterials;
 import gregtech.api.unification.material.IMaterialHandler;

@@ -1,8 +1,10 @@
-package gregsconstruct;
+package gregsconstruct.tinker;
 
 import gregicadditions.GAMaterials;
+import gregsconstruct.GCUtils;
+import gregsconstruct.common.GCMaterials;
+import gregsconstruct.common.GCMetaItems;
 import gregtech.api.recipes.CountableIngredient;
-import gregtech.api.recipes.ModHandler;
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.recipes.recipes.FuelRecipe;
@@ -12,13 +14,9 @@ import gregtech.api.unification.material.type.*;
 import gregtech.api.unification.ore.OrePrefix;
 import gregtech.api.unification.stack.MaterialStack;
 import gregtech.api.unification.stack.UnificationEntry;
-import gregtech.common.items.MetaItems;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Tuple;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -26,7 +24,6 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.oredict.OreDictionary;
 import slimeknights.mantle.util.RecipeMatch;
 import slimeknights.tconstruct.common.config.Config;
-import slimeknights.tconstruct.gadgets.TinkerGadgets;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.ExtraMaterialStats;
 import slimeknights.tconstruct.library.materials.HandleMaterialStats;
@@ -35,74 +32,24 @@ import slimeknights.tconstruct.library.smeltery.AlloyRecipe;
 import slimeknights.tconstruct.library.smeltery.MeltingRecipe;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerFluids;
+import slimeknights.tconstruct.shared.block.BlockSlime;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
-import sun.misc.GC;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
-import static gregtech.api.GTValues.*;
+import static gregtech.api.GTValues.L;
+import static gregtech.api.GTValues.M;
 
 public class GCTinkers {
-    public static final List<Tuple<String, ItemStack>> oreDictionaryRemovals = new ArrayList<>();
-
     private static final ArrayList<slimeknights.tconstruct.library.materials.Material> ingotMaterials = new ArrayList<>();
     private static final ArrayList<IngotMaterial> GTIngotMaterials = new ArrayList<>();
     private static final ArrayList<slimeknights.tconstruct.library.materials.Material> gemMaterials = new ArrayList<>();
     private static final ArrayList<GemMaterial> GTGemMaterials = new ArrayList<>();
-
-    public static void oreDictInit() {
-        oreDictionaryRemovals.add(new Tuple<>("blockGlass", new ItemStack(TinkerCommons.blockClearGlass, 1, W)));
-
-        for (Tuple<String, ItemStack> entry : oreDictionaryRemovals) {
-            for (ItemStack contained : OreDictionary.getOres(entry.getFirst())) {
-                if (contained.getItem() == entry.getSecond().getItem() && contained.getMetadata() == entry.getSecond().getMetadata()) {
-                    OreDictionary.getOres(entry.getFirst()).remove(contained);
-                    break;
-                }
-            }
-        }
-        OreDictUnifier.registerOre(TinkerCommons.mudBrick, OrePrefix.ingot, GCMaterials.Dirt);
-        OreDictUnifier.registerOre(OreDictUnifier.get(OrePrefix.block, Materials.Obsidian), "obsidian");
-    }
-
-    public static void furnaceRecipes() {
-        ModHandler.removeFurnaceSmelting(TinkerCommons.consecratedSoil);
-        ModHandler.removeFurnaceSmelting(TinkerCommons.matSlimeCrystalGreen);
-        ModHandler.removeFurnaceSmelting(TinkerCommons.matSlimeCrystalBlue);
-        ModHandler.removeFurnaceSmelting(TinkerCommons.matSlimeCrystalMagma);
-    }
-
-    public static void initEnhancedIntegration() {
-        RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().duration(320).EUt(32).inputs(TinkerCommons.mudBrickBlock).fluidOutputs(GCMaterials.Dirt.getFluid(576)).buildAndRegister();
-        RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().duration(20).EUt(8).fluidInputs(GCMaterials.Dirt.getFluid(144)).notConsumable(MetaItems.SHAPE_MOLD_INGOT).outputs(TinkerCommons.mudBrick).buildAndRegister();
-        RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().duration(80).EUt(8).fluidInputs(GCMaterials.Dirt.getFluid(144)).notConsumable(MetaItems.SHAPE_MOLD_BLOCK).output(Blocks.DIRT).buildAndRegister();
-
-        ModHandler.removeRecipes(ItemBlock.getItemFromBlock(TinkerGadgets.woodenHopper));
-        ModHandler.addShapedRecipe("tconstruct_wooden_hopper", new ItemStack(TinkerGadgets.woodenHopper), "PsP", "PCP", " P ", 'P', "plankWood", 'C', "chestWood");
-        ModHandler.removeRecipes(TinkerCommons.graveyardSoil);
-        RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().EUt(32).duration(60).input("dirt", 1).fluidInputs(GCMaterials.Blood.getFluid(40)).input(OrePrefix.dust, Materials.Bone).outputs(TinkerCommons.graveyardSoil).buildAndRegister();
-        ModHandler.removeRecipes(TinkerCommons.consecratedSoil);
-        RecipeMaps.CHEMICAL_BATH_RECIPES.recipeBuilder().EUt(16).duration(240).inputs(TinkerCommons.graveyardSoil).fluidInputs(Materials.Redstone.getFluid(144)).outputs(TinkerCommons.consecratedSoil).buildAndRegister();
-        RecipeMaps.CHEMICAL_BATH_RECIPES.recipeBuilder().EUt(32).duration(400).input("plankWood", 1).fluidInputs(Materials.Lava.getFluid(250)).outputs(TinkerCommons.lavawood).buildAndRegister();
-        ModHandler.removeRecipes(TinkerCommons.firewood);
-        RecipeMaps.CHEMICAL_BATH_RECIPES.recipeBuilder().EUt(32).duration(400).inputs(TinkerCommons.lavawood).fluidInputs(Materials.Blaze.getFluid(288)).outputs(TinkerCommons.firewood).buildAndRegister();
-        RecipeMaps.CHEMICAL_BATH_RECIPES.recipeBuilder().EUt(2).duration(400).input(TinkerCommons.blockClearStainedGlass).fluidInputs(Materials.Chlorine.getFluid(50)).output(TinkerCommons.blockClearGlass).buildAndRegister();
-
-        RecipeMaps.AUTOCLAVE_RECIPES.recipeBuilder().EUt(24).duration(4800).inputs(TinkerCommons.slimyMudGreen).fluidInputs(Materials.Water.getFluid(1000)).outputs(TinkerCommons.matSlimeCrystalGreen).buildAndRegister();
-        RecipeMaps.AUTOCLAVE_RECIPES.recipeBuilder().EUt(24).duration(4800).inputs(TinkerCommons.slimyMudBlue).fluidInputs(Materials.Water.getFluid(1000)).outputs(TinkerCommons.matSlimeCrystalBlue).buildAndRegister();
-        RecipeMaps.AUTOCLAVE_RECIPES.recipeBuilder().EUt(24).duration(4800).inputs(TinkerCommons.slimyMudMagma).fluidInputs(Materials.Water.getFluid(1000)).outputs(TinkerCommons.matSlimeCrystalMagma).buildAndRegister();
-
-        for (FluidStack lube : GCUtils.sawLubricants) {
-            RecipeMaps.CUTTER_RECIPES.recipeBuilder().EUt(512).duration(80).inputs(TinkerCommons.slimyMudGreen).fluidInputs(lube).outputs(TinkerCommons.matSlimeCrystalGreen).buildAndRegister();
-            RecipeMaps.CUTTER_RECIPES.recipeBuilder().EUt(512).duration(80).inputs(TinkerCommons.slimyMudBlue).fluidInputs(lube).outputs(TinkerCommons.matSlimeCrystalBlue).buildAndRegister();
-            RecipeMaps.CUTTER_RECIPES.recipeBuilder().EUt(512).duration(80).inputs(TinkerCommons.slimyMudMagma).fluidInputs(lube).outputs(TinkerCommons.matSlimeCrystalMagma).buildAndRegister();
-        }
-
-
-
-    }
 
     public static void preInit() {
         for (Material mat : Material.MATERIAL_REGISTRY) {
@@ -158,7 +105,7 @@ public class GCTinkers {
                         TinkerRegistry.registerMelting(new UnificationEntry(OrePrefix.oreEndstone, mat).toString(), dust.directSmelting.getMaterialFluid(), oreAmount);
                         TinkerRegistry.registerMelting(new UnificationEntry(OrePrefix.oreBlackgranite, mat).toString(), dust.directSmelting.getMaterialFluid(), oreAmount);
                         TinkerRegistry.registerMelting(new UnificationEntry(OrePrefix.oreBasalt, mat).toString(), dust.directSmelting.getMaterialFluid(), oreAmount);
-                    } else if (dust.hasFlag(DustMaterial.MatFlags.SMELT_INTO_FLUID) && dust.getMaterialFluid() != null && mat != Materials.Glass && mat != Materials.Ice) {
+                    } else if (dust.hasFlag(DustMaterial.MatFlags.SMELT_INTO_FLUID) && dust.getMaterialFluid() != null && mat != Materials.Glass && mat != Materials.Ice && mat != Materials.Stone) {
                         TinkerRegistry.registerMelting(new UnificationEntry(OrePrefix.dust, mat).toString(), dust.getMaterialFluid(), 144);
                         TinkerRegistry.registerMelting(new UnificationEntry(OrePrefix.dustSmall, mat).toString(), dust.getMaterialFluid(), 36);
                         TinkerRegistry.registerMelting(new UnificationEntry(OrePrefix.dustTiny, mat).toString(), dust.getMaterialFluid(), 16);
@@ -238,7 +185,6 @@ public class GCTinkers {
                 Materials.Cobalt.getFluid(1));
     }
 
-
     public static void init() {
         // Alloy smelting -> Tinker Alloying
         Collection<Recipe> alloySmeltingRecipes = new ArrayList<>(RecipeMaps.ALLOY_SMELTER_RECIPES.getRecipeList());
@@ -293,6 +239,7 @@ public class GCTinkers {
                     && mat != Materials.NaquadahEnriched
                     && mat != GCMaterials.Dirt
                     && mat != Materials.Obsidian
+                    && mat != GCMaterials.Slime
                     && mat instanceof FluidMaterial && ((FluidMaterial) mat).getMaterialFluid() != null) {
                 for (OrePrefix prefix : OrePrefix.values()) {
                     if (!OreDictUnifier.get(prefix, mat).isEmpty()
@@ -345,6 +292,19 @@ public class GCTinkers {
         }
         TinkerRegistry.registerMelting("obsidian", TinkerFluids.obsidian, 144);
         TinkerRegistry.registerBasinCasting(new ItemStack(Blocks.OBSIDIAN), ItemStack.EMPTY, TinkerFluids.obsidian, 144);
+        TinkerRegistry.registerMelting("plateBrickSeared", TinkerFluids.searedStone, 72);
+        TinkerRegistry.registerTableCasting(GCMetaItems.SEARED_BRICK_PLATE.getStackForm(), TinkerSmeltery.castPlate, TinkerFluids.searedStone, 72);
+
+        if (GCMaterials.Slime.getMaterialFluid() != null) {
+            TinkerRegistry.registerMelting(Items.SLIME_BALL, GCMaterials.Slime.getMaterialFluid(), 250);
+            TinkerRegistry.registerMelting(Blocks.SLIME_BLOCK, GCMaterials.Slime.getMaterialFluid(), 2250);
+            TinkerRegistry.registerMelting(new ItemStack(TinkerCommons.blockSlime), GCMaterials.Slime.getMaterialFluid(), 2250);
+            TinkerRegistry.registerMelting(new ItemStack(TinkerCommons.blockSlimeCongealed), GCMaterials.Slime.getMaterialFluid(), 1000);
+        }
+
+        TinkerRegistry.registerMelting(TinkerCommons.matSlimeBallBlue, TinkerFluids.blueslime, 250);
+        TinkerRegistry.registerMelting(new ItemStack(TinkerCommons.blockSlime, 1, BlockSlime.SlimeType.BLUE.meta), GCMaterials.Slime.getMaterialFluid(), 2250);
+        TinkerRegistry.registerMelting(new ItemStack(TinkerCommons.blockSlime, 1, BlockSlime.SlimeType.BLUE.meta), GCMaterials.Slime.getMaterialFluid(), 1000);
     }
 
     private static void registerTinkerMelting(String oreDict, Fluid fluid, int amount) {

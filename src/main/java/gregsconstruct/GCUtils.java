@@ -7,6 +7,7 @@ import gregtech.api.unification.stack.MaterialStack;
 import net.minecraft.util.Tuple;
 import net.minecraftforge.fluids.FluidStack;
 import slimeknights.tconstruct.shared.TinkerFluids;
+import slimeknights.tconstruct.shared.block.BlockClearStainedGlass;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,11 +21,11 @@ public class GCUtils {
             Materials.Water.getFluid(4)
     };
 
-    private static final List<Tuple<FluidStack, FluidStack>> lateGeneratedFluids = new ArrayList<Tuple<FluidStack, FluidStack>>() {{
-        add(new Tuple<>(new FluidStack(TinkerFluids.copper, 3), new FluidStack(TinkerFluids.tin, 1)));
-        add(new Tuple<>(new FluidStack(TinkerFluids.gold, 1), new FluidStack(TinkerFluids.silver, 1)));
-        add(new Tuple<>(new FluidStack(TinkerFluids.ardite, 2), new FluidStack(TinkerFluids.cobalt, 2)));
-    }};
+    public static final MaterialStack[] lapisLike = {
+            new MaterialStack(Materials.Lapis, 1),
+            new MaterialStack(Materials.Lazurite, 1),
+            new MaterialStack(Materials.Sodalite, 1)
+    };
 
     public static final Set<OrePrefix> blastPrefix = new HashSet<OrePrefix>() {{
         add(OrePrefix.dust);
@@ -38,17 +39,38 @@ public class GCUtils {
         add(OrePrefix.ingotHot);
     }};
 
+    private static final List<Tuple<FluidStack, FluidStack>> lateGeneratedFluids = new ArrayList<Tuple<FluidStack, FluidStack>>() {{
+        add(new Tuple<>(new FluidStack(TinkerFluids.copper, 3), new FluidStack(TinkerFluids.tin, 1)));
+        add(new Tuple<>(new FluidStack(TinkerFluids.gold, 1), new FluidStack(TinkerFluids.silver, 1)));
+        add(new Tuple<>(new FluidStack(TinkerFluids.ardite, 2), new FluidStack(TinkerFluids.cobalt, 2)));
+    }};
 
     public static String upperCase(Material mat) {
         return mat.toCamelCaseString().substring(0, 1).toUpperCase() + mat.toCamelCaseString().substring(1);
     }
 
 
-    protected static boolean isLateGeneratedFluid(FluidStack f1, FluidStack f2) {
+    public static boolean isLateGeneratedFluid(FluidStack f1, FluidStack f2) {
         for (Tuple<FluidStack, FluidStack> r : lateGeneratedFluids)
             if ((r.getFirst().isFluidStackIdentical(f1) && r.getSecond().isFluidStackIdentical(f2))
                     || (r.getFirst().isFluidStackIdentical(f2) && r.getSecond().isFluidStackIdentical(f1)))
                 return true;
         return false;
+    }
+
+    public static String getColorFromMeta(int i) {
+        StringBuilder color = new StringBuilder(BlockClearStainedGlass.EnumGlassColor.values()[i].getName().toLowerCase());
+        if (color.toString().contains("_")) {
+            int idx = color.toString().indexOf('_');
+            color.deleteCharAt(idx);
+            color.setCharAt(idx, Character.toUpperCase(color.charAt(idx)));
+        }
+        if (color.length() > 0)
+            color.setCharAt(0, Character.toUpperCase(color.charAt(0)));
+        if (color.toString().equals("Silver")) {
+            color.setLength(0);
+            color.append("LightGray");
+        }
+        return color.toString();
     }
 }
