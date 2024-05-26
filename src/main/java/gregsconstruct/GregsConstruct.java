@@ -179,14 +179,13 @@ public class GregsConstruct {
         public void highOvenMixingRemoval(TCompRegisterEvent.HighOvenMixRegisterEvent event) {
             event.setCanceled(true);
         }
-
         @SubscribeEvent(priority = EventPriority.HIGH)
         public void meltingRemoval(TCompRegisterEvent.MelterOverrideRegisterEvent event) {
             events.smeltingRemovalGlobal(event);
         }
 
         @SubscribeEvent(priority = EventPriority.HIGH)
-        public void highOvenMeltingRemoval(TCompRegisterEvent.HighOvenOverrideRegisterEvent event) {
+        public void highOvenMeltingRemoval (TCompRegisterEvent.HighOvenOverrideRegisterEvent event) {
             events.smeltingRemovalGlobal(event);
         }
     }
