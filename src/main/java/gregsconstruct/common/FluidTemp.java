@@ -1,12 +1,10 @@
 package gregsconstruct.common;
 
-import gregicadditions.GAMaterials;
 import gregtech.api.unification.material.IMaterialHandler;
 import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.material.type.FluidMaterial;
 import gregtech.api.unification.material.type.IngotMaterial;
 import gregtech.api.unification.material.type.Material;
-import net.minecraftforge.fml.common.Loader;
 
 @IMaterialHandler.RegisterMaterialHandler
 public class FluidTemp implements IMaterialHandler {

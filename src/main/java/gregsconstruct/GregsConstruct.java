@@ -32,6 +32,7 @@ import org.apache.logging.log4j.Logger;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.events.TinkerRegisterEvent;
 import slimeknights.tconstruct.library.smeltery.CastingRecipe;
+import slimeknights.tconstruct.library.smeltery.MeltingRecipe;
 import slimeknights.tconstruct.shared.TinkerFluids;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 
@@ -127,6 +128,17 @@ public class GregsConstruct {
 
         @SubscribeEvent(priority = EventPriority.HIGH)
         public static void smeltingRemoval(TinkerRegisterEvent.MeltingRegisterEvent event) {
+            smeltingRemovalGlobal(event);
+        }
+
+        @SubscribeEvent(priority = EventPriority.HIGH)
+        public static void alloyRemoval(TinkerRegisterEvent.AlloyRegisterEvent event) {
+            if (event.getRecipe().getResult().isFluidStackIdentical(new FluidStack(TinkerFluids.brass, 3))
+                    || event.getRecipe().getResult().isFluidStackIdentical(new FluidStack(TinkerFluids.alubrass, 4)))
+                event.setCanceled(true);
+        }
+
+        protected static void smeltingRemovalGlobal(TinkerRegisterEvent<? extends MeltingRecipe> event) {
             if (event.getRecipe().getResult().isFluidEqual(new FluidStack(TinkerFluids.aluminum, 1)))
                 event.setCanceled(true);
             if (event.getRecipe().getResult().isFluidEqual(new FluidStack(TinkerFluids.alubrass, 1)))
@@ -157,14 +169,7 @@ public class GregsConstruct {
                     event.setCanceled(true);
         }
 
-        @SubscribeEvent(priority = EventPriority.HIGH)
-        public static void alloyRemoval(TinkerRegisterEvent.AlloyRegisterEvent event) {
-            if (event.getRecipe().getResult().isFluidStackIdentical(new FluidStack(TinkerFluids.brass, 3))
-                    || event.getRecipe().getResult().isFluidStackIdentical(new FluidStack(TinkerFluids.alubrass, 4)))
-                event.setCanceled(true);
-        }
-
-        private static boolean matches(TinkerRegisterEvent.MeltingRegisterEvent e, OrePrefix prefix, Material mat) {
+        private static boolean matches(TinkerRegisterEvent<? extends MeltingRecipe> e, OrePrefix prefix, Material mat) {
             return e.getRecipe().input.matches(NonNullList.withSize(1, OreDictUnifier.get(prefix, mat))).isPresent();
         }
     }
@@ -173,6 +178,16 @@ public class GregsConstruct {
         @SubscribeEvent(priority = EventPriority.HIGH)
         public void highOvenMixingRemoval(TCompRegisterEvent.HighOvenMixRegisterEvent event) {
             event.setCanceled(true);
+        }
+
+        @SubscribeEvent(priority = EventPriority.HIGH)
+        public void meltingRemoval(TCompRegisterEvent.MelterOverrideRegisterEvent event) {
+            events.smeltingRemovalGlobal(event);
+        }
+
+        @SubscribeEvent(priority = EventPriority.HIGH)
+        public void highOvenMeltingRemoval(TCompRegisterEvent.HighOvenOverrideRegisterEvent event) {
+            events.smeltingRemovalGlobal(event);
         }
     }
 }
