@@ -1,7 +1,7 @@
 package gregsconstruct.common;
 
 import gregicadditions.GAConfig;
-import gregicadditions.GAUtils;
+import gregicadditions.GAMaterials;
 import gregsconstruct.GCConfig;
 import gregsconstruct.GCUtils;
 import gregtech.api.GTValues;
@@ -15,10 +15,17 @@ import gregtech.api.unification.stack.MaterialStack;
 import gregtech.api.unification.stack.UnificationEntry;
 import gregtech.api.util.GTUtility;
 import gregtech.common.items.MetaItems;
+import knightminer.ceramics.Ceramics;
+import knightminer.tcomplement.armor.ArmorModule;
+import knightminer.tcomplement.melter.MelterModule;
+import knightminer.tcomplement.plugin.ceramics.CeramicsPlugin;
+import knightminer.tcomplement.shared.CommonsModule;
+import knightminer.tcomplement.steelworks.SteelworksModule;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Tuple;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Loader;
@@ -65,6 +72,10 @@ public class GCRecipes {
         OreDictUnifier.registerOre(new ItemStack(TinkerCommons.blockClearGlass, 1, W), "blockGlassClear");
         OreDictUnifier.registerOre(new ItemStack(TinkerCommons.blockClearStainedGlass, 1, W), "blockGlassClear");
         OreDictUnifier.registerOre(new ItemStack(TinkerGadgets.stoneStick, 1, W), "stickStone");
+        if (Loader.isModLoaded("tcomplement")) {
+            OreDictUnifier.registerOre(new ItemStack(CommonsModule.materials, 1, 1), "ingotBrickScorched");
+            OreDictUnifier.registerOre(GCMetaItems.SCORCHED_BRICK_PLATE.getStackForm(), "plateBrickScorched");
+        }
     }
 
     public static void furnaceRecipes() {
@@ -75,9 +86,12 @@ public class GCRecipes {
         ModHandler.removeFurnaceSmelting(TinkerCommons.slimyMudGreen);
         ModHandler.removeFurnaceSmelting(TinkerCommons.slimyMudMagma);
         ModHandler.removeFurnaceSmelting(new ItemStack(TinkerSmeltery.searedBlock, 1, BlockSeared.SearedType.BRICK.getMeta()));
+        GameRegistry.addSmelting(new ItemStack(TinkerSmeltery.searedBlock, 1, BlockSeared.SearedType.COBBLE.getMeta()), new ItemStack(TinkerSmeltery.searedBlock, 1, BlockSeared.SearedType.STONE.getMeta()), 0.1f);
         for (int i = 0; i <= 4; i++)
             ModHandler.removeFurnaceSmelting(new ItemStack(TinkerCommons.blockSlimeCongealed, 1, i));
         GameRegistry.addSmelting(OreDictUnifier.get(OrePrefix.dust, Materials.Glass, 8), new ItemStack(TinkerCommons.blockClearGlass), 0f);
+        if (Loader.isModLoaded("tcomplement"))
+            ModHandler.removeFurnaceSmelting(new ItemStack(SteelworksModule.scorchedBlock, 1, BlockSeared.SearedType.BRICK.getMeta()));
     }
 
     public static void initEnhancedIntegration() {
@@ -176,7 +190,7 @@ public class GCRecipes {
 
         ModHandler.removeRecipes(TinkerCommons.matExpanderH);
         ModHandler.removeRecipes(TinkerCommons.matExpanderW);
-        for (MaterialStack lapis : GAUtils.lapisLike) {
+        for (MaterialStack lapis : GCUtils.lapisLike) {
             RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().EUt(16).duration(58).input("craftingPiston", 2).input(OrePrefix.gem, lapis.material, 2).inputs(TinkerCommons.matSlimeBallPurple).circuitMeta(1).outputs(TinkerCommons.matExpanderH).buildAndRegister();
             RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().EUt(16).duration(58).input("craftingPiston", 2).input(OrePrefix.gem, lapis.material, 2).inputs(TinkerCommons.matSlimeBallPurple).circuitMeta(2).outputs(TinkerCommons.matExpanderW).buildAndRegister();
         }
@@ -245,6 +259,7 @@ public class GCRecipes {
         ModHandler.addShapedRecipe("seared_plate", GCMetaItems.SEARED_BRICK_PLATE.getStackForm(), "h", "S", "S", 'S', TinkerCommons.searedBrick);
         RecipeMaps.BENDER_RECIPES.recipeBuilder().duration(30).EUt(8).input("ingotBrickSeared", 1).notConsumable(new IntCircuitIngredient(0)).outputs(GCMetaItems.SEARED_BRICK_PLATE.getStackForm()).buildAndRegister();
         RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().EUt(32).duration(40).input("plateBrickSeared", 1).fluidOutputs(new FluidStack(TinkerFluids.searedStone, 72)).buildAndRegister();
+        RecipeMaps.ALLOY_SMELTER_RECIPES.recipeBuilder().duration(60).EUt(8).input("ingotBrickSeared", 2).notConsumable(MetaItems.SHAPE_MOLD_PLATE).outputs(GCMetaItems.SEARED_BRICK_PLATE.getStackForm()).buildAndRegister();
 
         ModHandler.removeRecipes(new ItemStack(TinkerSmeltery.smelteryController));
         ModHandler.addShapedRecipe("tconstruct_smeltery_controller", new ItemStack(TinkerSmeltery.smelteryController), "SPS", "PTP", "dPw", 'S', new UnificationEntry(OrePrefix.screw, Materials.Iron), 'P', "plateBrickSeared", 'T', new ItemStack(TinkerSmeltery.tinkerTankController));
@@ -288,6 +303,93 @@ public class GCRecipes {
     }
 
     public static void initTComplementIntegration() {
+        ModHandler.removeRecipes(CommonsModule.stoneBucket);
+        ModHandler.addShapedRecipe("stone_bucket_mold", CommonsModule.stoneBucket, "PhP", " P ", 'P', new UnificationEntry(OrePrefix.plate, Materials.Stone));
+        RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(5).input(OrePrefix.ingot, Materials.Brick).fluidInputs(new FluidStack(TinkerFluids.searedStone, 18)).outputs(new ItemStack(CommonsModule.materials, 1, 1)).buildAndRegister();
+        RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(5).input(OrePrefix.plate, Materials.Brick).fluidInputs(new FluidStack(TinkerFluids.searedStone, 18)).outputs(GCMetaItems.SCORCHED_BRICK_PLATE.getStackForm()).buildAndRegister();
+        RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(20).input(Blocks.HARDENED_CLAY).fluidInputs(new FluidStack(TinkerFluids.searedStone, 72)).outputs(new ItemStack(SteelworksModule.scorchedBlock, 1, BlockSeared.SearedType.STONE.getMeta())).buildAndRegister();
+        RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(20).input(Blocks.STAINED_HARDENED_CLAY).fluidInputs(new FluidStack(TinkerFluids.searedStone, 72)).outputs(new ItemStack(SteelworksModule.scorchedBlock, 1, BlockSeared.SearedType.STONE.getMeta())).buildAndRegister();
+        RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(20).input(Blocks.CLAY).fluidInputs(new FluidStack(TinkerFluids.searedStone, 72)).outputs(new ItemStack(SteelworksModule.scorchedBlock, 1, BlockSeared.SearedType.COBBLE.getMeta())).buildAndRegister();
+        ModHandler.removeRecipes(new ItemStack(SteelworksModule.scorchedBlock, 1, BlockSeared.SearedType.BRICK_SMALL.getMeta()));
+        RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(20).input(Blocks.BRICK_BLOCK).fluidInputs(new FluidStack(TinkerFluids.searedStone, 72)).outputs(new ItemStack(SteelworksModule.scorchedBlock, 1, BlockSeared.SearedType.BRICK_SMALL.getMeta())).buildAndRegister();
+
+        ModHandler.addShapedRecipe("scorched_plate", GCMetaItems.SCORCHED_BRICK_PLATE.getStackForm(), "h", "S", "S", 'S', "ingotBrickScorched");
+        RecipeMaps.BENDER_RECIPES.recipeBuilder().duration(30).EUt(8).input("ingotBrickScorched", 1).notConsumable(new IntCircuitIngredient(0)).outputs(GCMetaItems.SCORCHED_BRICK_PLATE.getStackForm()).buildAndRegister();
+        RecipeMaps.ALLOY_SMELTER_RECIPES.recipeBuilder().duration(60).EUt(8).input("ingotBrickScorched", 2).notConsumable(MetaItems.SHAPE_MOLD_PLATE).outputs(GCMetaItems.SCORCHED_BRICK_PLATE.getStackForm()).buildAndRegister();
+        ModHandler.removeRecipes(new ItemStack(MelterModule.melter));
+        ModHandler.addShapedRecipe("tconstruct_melter", new ItemStack(MelterModule.melter), " P ", "PTP", "PhP", 'P', "plateBrickSeared", 'T', TinkerSmeltery.searedTank);
+        ModHandler.removeRecipes(new ItemStack(MelterModule.melter, 1, 8));
+        ModHandler.addShapedRecipe("tconstruct_melter_heater", new ItemStack(MelterModule.melter, 1, 8), "SPS", "PTP", "PdP", 'P', "plateBrickSeared", 'T', "craftingFurnace", 'S', new UnificationEntry(OrePrefix.screw, Materials.Iron));
+        ModHandler.removeRecipes(new ItemStack(MelterModule.alloyTank));
+        ModHandler.addShapedRecipe("tconstruct_alloy_tank", new ItemStack(MelterModule.alloyTank), "PRP", "FTF", "PRP", 'P', "plateBrickSeared", 'R', new UnificationEntry(OrePrefix.rotor, Materials.Iron), 'F', TinkerSmeltery.faucet, 'T', TinkerSmeltery.searedTank);
+
+        if (Loader.isModLoaded("gtadditions") && GAConfig.GT6.BendingCurvedPlates && GAConfig.GT6.BendingCylinders) {
+            ModHandler.removeRecipeByName(new ResourceLocation("tcomplement:armor/steel_helmet"));
+            ModHandler.addShapedRecipe("steel_helmet", new ItemStack(ArmorModule.steelHelmet), "PPP", "ChC", 'P', new UnificationEntry(OrePrefix.plate, Materials.Steel), 'C', new UnificationEntry(OrePrefix.valueOf("plateCurved"), Materials.Steel));
+            ModHandler.removeRecipeByName(new ResourceLocation("tcomplement:armor/steel_chestplate"));
+            ModHandler.addShapedRecipe("steel_chestplate", new ItemStack(ArmorModule.steelChestplate), "PhP", "CPC", "CPC", 'P', new UnificationEntry(OrePrefix.plate, Materials.Steel), 'C', new UnificationEntry(OrePrefix.valueOf("plateCurved"), Materials.Steel));
+            ModHandler.removeRecipeByName(new ResourceLocation("tcomplement:armor/steel_leggings"));
+            ModHandler.addShapedRecipe("steel_leggings", new ItemStack(ArmorModule.steelLeggings), "PCP", "ChC", "C C", 'P', new UnificationEntry(OrePrefix.plate, Materials.Steel), 'C', new UnificationEntry(OrePrefix.valueOf("plateCurved"), Materials.Steel));
+            ModHandler.removeRecipeByName(new ResourceLocation("tcomplement:armor/steel_boots"));
+            ModHandler.addShapedRecipe("steel_boots", new ItemStack(ArmorModule.steelBoots), "P P", "ChC", 'P', new UnificationEntry(OrePrefix.plate, Materials.Steel), 'C', new UnificationEntry(OrePrefix.valueOf("plateCurved"), Materials.Steel));
+
+            ModHandler.removeRecipeByName(new ResourceLocation("tcomplement:armor/manyullyn_helmet"));
+            ModHandler.addShapedRecipe("manyullyn_helmet", new ItemStack(ArmorModule.manyullynHelmet), "PPP", "ChC", 'P', new UnificationEntry(OrePrefix.plate, GCMaterials.Manyullyn), 'C', new UnificationEntry(OrePrefix.valueOf("plateCurved"), GCMaterials.Manyullyn));
+            ModHandler.removeRecipeByName(new ResourceLocation("tcomplement:armor/manyullyn_chestplate"));
+            ModHandler.addShapedRecipe("manyullyn_chestplate", new ItemStack(ArmorModule.manyullynChestplate), "PhP", "CPC", "CPC", 'P', new UnificationEntry(OrePrefix.plate, GCMaterials.Manyullyn), 'C', new UnificationEntry(OrePrefix.valueOf("plateCurved"), GCMaterials.Manyullyn));
+            ModHandler.removeRecipeByName(new ResourceLocation("tcomplement:armor/manyullyn_leggings"));
+            ModHandler.addShapedRecipe("manyullyn_leggings", new ItemStack(ArmorModule.manyullynLeggings), "PCP", "ChC", "C C", 'P', new UnificationEntry(OrePrefix.plate, GCMaterials.Manyullyn), 'C', new UnificationEntry(OrePrefix.valueOf("plateCurved"), GCMaterials.Manyullyn));
+            ModHandler.removeRecipeByName(new ResourceLocation("tcomplement:armor/manyullyn_boots"));
+            ModHandler.addShapedRecipe("manyullyn_boots", new ItemStack(ArmorModule.manyullynBoots), "P P", "ChC", 'P', new UnificationEntry(OrePrefix.plate, GCMaterials.Manyullyn), 'C', new UnificationEntry(OrePrefix.valueOf("plateCurved"), GCMaterials.Manyullyn));
+        }
+
+        if (Loader.isModLoaded("ceramics")) {
+            ModHandler.removeRecipes(new ItemStack(MelterModule.porcelainTank));
+            ModHandler.addShapedRecipe("porcelain_tank", new ItemStack(MelterModule.porcelainTank), "BBB", "BGB", "BBB", 'B', "ingotPorcelain", 'G', "blockGlassClear");
+        }
+        if (Loader.isModLoaded("gtadditions") && Loader.isModLoaded("ceramics") && GAConfig.Misc.CeramicsIntegration) {
+            ModHandler.removeRecipes(new ItemStack(MelterModule.porcelainTank, 1, 1));
+            ModHandler.addShapedRecipe("porcelain_gauge", new ItemStack(MelterModule.porcelainTank, 1, 1), " P ", "PWP", " P ", 'P', new UnificationEntry(OrePrefix.plate, GAMaterials.Porcelain), 'W', "blockGlassClear");
+            ModHandler.removeRecipes(new ItemStack(MelterModule.porcelainTank, 1, 2));
+            ModHandler.addShapedRecipe("porcelain_window", new ItemStack(MelterModule.porcelainTank, 1, 2), "PWP", "PWP", "PWP", 'P', new UnificationEntry(OrePrefix.plate, GAMaterials.Porcelain), 'W', "blockGlassClear");
+            ModHandler.removeRecipes(new ItemStack(MelterModule.porcelainMelter));
+            ModHandler.addShapedRecipe("porcelain_melter", new ItemStack(MelterModule.porcelainMelter), " P ", "PTP", "PhP", 'P', new UnificationEntry(OrePrefix.plate, GAMaterials.Porcelain), 'T', MelterModule.porcelainTank);
+            ModHandler.removeRecipes(new ItemStack(MelterModule.porcelainMelter, 1, 8));
+            ModHandler.addShapedRecipe("porcelain_melter_heater", new ItemStack(MelterModule.porcelainMelter, 1, 8), "SPS", "PTP", "PdP", 'P', new UnificationEntry(OrePrefix.plate, GAMaterials.Porcelain), 'T', "craftingFurnace", 'S', new UnificationEntry(OrePrefix.screw, Materials.Iron));
+            ModHandler.removeRecipes(new ItemStack(MelterModule.porcelainAlloyTank));
+            ModHandler.addShapedRecipe("porcelain_alloy_tank", new ItemStack(MelterModule.porcelainAlloyTank), "PRP", "FTF", "PRP", 'P', new UnificationEntry(OrePrefix.plate, GAMaterials.Porcelain), 'R', new UnificationEntry(OrePrefix.rotor, Materials.Iron), 'F', Ceramics.faucet, 'T', MelterModule.porcelainTank);
+            ModHandler.removeRecipes(new ItemStack(CeramicsPlugin.porcelainCasting));
+            ModHandler.addShapedRecipe("porcelain_casting_table", new ItemStack(CeramicsPlugin.porcelainCasting), "PPP", "BhB", "B B", 'B', new UnificationEntry(OrePrefix.ingot, GAMaterials.Porcelain), 'P', new UnificationEntry(OrePrefix.plate, GAMaterials.Porcelain));
+            ModHandler.removeRecipes(new ItemStack(CeramicsPlugin.porcelainCasting, 1, 1));
+            ModHandler.addShapedRecipe("porcelain_casting_basin", new ItemStack(CeramicsPlugin.porcelainCasting, 1, 1), "PBP", "PhP", "PPP", 'B', new UnificationEntry(OrePrefix.ingot, GAMaterials.Porcelain), 'P', new UnificationEntry(OrePrefix.plate, GAMaterials.Porcelain));
+        }
+        ModHandler.removeRecipeByName(new ResourceLocation("tcomplement:armor/knightslime_helmet"));
+        ModHandler.removeRecipeByName(new ResourceLocation("tcomplement:armor/knightslime_chestplate"));
+        ModHandler.removeRecipeByName(new ResourceLocation("tcomplement:armor/knightslime_leggings"));
+        ModHandler.removeRecipeByName(new ResourceLocation("tcomplement:armor/knightslime_boots"));
+        RecipeMaps.CHEMICAL_BATH_RECIPES.recipeBuilder().EUt(24).duration(500).fluidInputs(new FluidStack(TinkerFluids.knightslime, 720)).input(Items.LEATHER_HELMET).output(ArmorModule.knightSlimeHelmet).buildAndRegister();
+        RecipeMaps.CHEMICAL_BATH_RECIPES.recipeBuilder().EUt(24).duration(800).fluidInputs(new FluidStack(TinkerFluids.knightslime, 1152)).input(Items.LEATHER_CHESTPLATE).output(ArmorModule.knightSlimeChestplate).buildAndRegister();
+        RecipeMaps.CHEMICAL_BATH_RECIPES.recipeBuilder().EUt(24).duration(700).fluidInputs(new FluidStack(TinkerFluids.knightslime, 1008)).input(Items.LEATHER_LEGGINGS).output(ArmorModule.knightSlimeLeggings).buildAndRegister();
+        RecipeMaps.CHEMICAL_BATH_RECIPES.recipeBuilder().EUt(24).duration(400).fluidInputs(new FluidStack(TinkerFluids.knightslime, 576)).input(Items.LEATHER_BOOTS).output(ArmorModule.knightSlimeBoots).buildAndRegister();
+
+        ModHandler.removeRecipes(new ItemStack(SteelworksModule.scorchedFaucet));
+        ModHandler.addShapedRecipe("scorched_faucet", new ItemStack(SteelworksModule.scorchedFaucet), "BhB", " P ", 'B', "ingotBrickScorched", 'P', "plateBrickScorched");
+        ModHandler.removeRecipes(new ItemStack(SteelworksModule.scorchedChannel, 1));
+        ModHandler.addShapedRecipe("scorched_channel", new ItemStack(SteelworksModule.scorchedChannel, 3), "BhB", "PPP", 'B', "ingotBrickScorched", 'P', "plateBrickScorched");
+        ModHandler.removeRecipes(new ItemStack(SteelworksModule.scorchedCasting));
+        ModHandler.addShapedRecipe("scorched_casting_table", new ItemStack(SteelworksModule.scorchedCasting), "PPP", "BhB", "B B", 'B', "ingotBrickScorched", 'P', "plateBrickScorched");
+        ModHandler.removeRecipes(new ItemStack(SteelworksModule.scorchedCasting, 1, 1));
+        ModHandler.addShapedRecipe("scorched_casting_basin", new ItemStack(SteelworksModule.scorchedCasting, 1, 1), "PBP", "PhP", "PPP", 'B', "ingotBrickScorched", 'P', "plateBrickScorched");
+        ModHandler.removeRecipes(new ItemStack(SteelworksModule.highOvenIO));
+        ModHandler.addShapedRecipe("scorched_smeltery_io", new ItemStack(SteelworksModule.highOvenIO), "BPB", "PwP", "BPB", 'B', new UnificationEntry(OrePrefix.ingot, Materials.Steel), 'P', "plateBrickScorched");
+        ModHandler.removeRecipes(new ItemStack(SteelworksModule.highOvenIO, 1, 1));
+        ModHandler.addShapedRecipe("scorched_smeltery_io_items", new ItemStack(SteelworksModule.highOvenIO, 1, 1), "PBP", "BwB", "PBP", 'B', new UnificationEntry(OrePrefix.ingot, Materials.Steel), 'P', "plateBrickScorched");
+        ModHandler.removeRecipes(new ItemStack(SteelworksModule.highOvenIO, 1, 2));
+        ModHandler.addShapedRecipe("scorched_smeltery_io_fuel", new ItemStack(SteelworksModule.highOvenIO, 1, 2), " B ", "BTB", " B ", 'B', new UnificationEntry(OrePrefix.ingot, Materials.Steel), 'T', new ItemStack(SteelworksModule.highOvenIO, 1, 1));
+        ModHandler.removeRecipes(new ItemStack(SteelworksModule.highOvenController));
+        ModHandler.addShapedRecipe("scorched_smeltery_controller", new ItemStack(SteelworksModule.highOvenController), "SPS", "PTP", "dPw", 'S', new UnificationEntry(OrePrefix.screw, Materials.Steel), 'P', new UnificationEntry(OrePrefix.plate, Materials.Steel), 'T', new ItemStack(SteelworksModule.highOvenIO, 1, 2));
+
+        RecipeMaps.FORGE_HAMMER_RECIPES.recipeBuilder().EUt(8).duration(200).inputs(new ItemStack(SteelworksModule.scorchedBlock, 1, BlockSeared.SearedType.BRICK.getMeta())).outputs(new ItemStack(SteelworksModule.scorchedBlock, 1, BlockSeared.SearedType.BRICK_CRACKED.getMeta())).buildAndRegister();
 
     }
 

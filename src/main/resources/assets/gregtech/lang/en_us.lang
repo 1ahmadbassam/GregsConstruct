@@ -67,6 +67,7 @@ material.greenslime=Liquid Green Slime
 
 metaitem.compressed.grout.name=Unfired Seared Brick
 metaitem.seared.plate.name=Seared Brick Plate
+metaitem.scorched.plate.name=Scorched Brick Plate
 
 metaitem.mold.form.anvil.name=Mold Form (Anvil)
 metaitem.mold.form.ball.name=Mold Form (Ball)

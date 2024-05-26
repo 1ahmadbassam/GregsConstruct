@@ -15,6 +15,7 @@ import gregtech.api.unification.material.type.*;
 import gregtech.api.unification.ore.OrePrefix;
 import gregtech.api.unification.stack.MaterialStack;
 import gregtech.api.unification.stack.UnificationEntry;
+import knightminer.tcomplement.library.TCompRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -315,7 +316,13 @@ public class GCTinkers {
 
     public static void postInitTComplement() {
         Materials.Steel.setFluidTemperature(Materials.Steel.blastFurnaceTemperature);
-
+        TCompRegistry.registerFuel(OreDictUnifier.get(OrePrefix.dust, Materials.Carbon), 70, 2);
+        TCompRegistry.registerFuel(OreDictUnifier.get(OrePrefix.block, Materials.Carbon), 700, 4);
+        TCompRegistry.registerFuel(OreDictUnifier.get(OrePrefix.dust, Materials.Charcoal), 140, 4);
+        TCompRegistry.registerFuel(OreDictUnifier.get(OrePrefix.dust, Materials.Coke), 280, 10);
+        TCompRegistry.registerFuel(OreDictUnifier.get(OrePrefix.gem, Materials.Lignite), 210, 7);
+        TCompRegistry.registerFuel(OreDictUnifier.get(OrePrefix.dust, Materials.Lignite), 210, 7);
+        TCompRegistry.registerFuel(OreDictUnifier.get(OrePrefix.block, Materials.Lignite), 2100, 10);
     }
 
     private static void registerTinkerMelting(String oreDict, Fluid fluid, int amount) {

@@ -1,12 +1,15 @@
 package gregsconstruct.common;
 
 import gregtech.api.items.materialitem.MaterialMetaItem;
+import net.minecraftforge.fml.common.Loader;
 
 public class GCMetaItem extends MaterialMetaItem {
     @Override
     public void registerSubItems() {
         GCMetaItems.COMPRESSED_GROUT = addItem(0, "compressed.grout");
         GCMetaItems.SEARED_BRICK_PLATE = addItem(1, "seared.plate");
+        if (Loader.isModLoaded("tcomplement"))
+            GCMetaItems.SCORCHED_BRICK_PLATE = addItem(2, "scorched.plate");
         GCMetaItems.MOLD_FORM_ANVIL = addItem(10, "mold.form.anvil");
         GCMetaItems.MOLD_FORM_BALL = addItem(11, "mold.form.ball");
         GCMetaItems.MOLD_FORM_BLOCK = addItem(12, "mold.form.block");

@@ -9,6 +9,7 @@ public class GCMetaItems {
 
     public static MetaItem<?>.MetaValueItem COMPRESSED_GROUT;
     public static MetaItem<?>.MetaValueItem SEARED_BRICK_PLATE;
+    public static MetaItem<?>.MetaValueItem SCORCHED_BRICK_PLATE;
     public static MetaItem<?>.MetaValueItem MOLD_FORM_ANVIL;
     public static MetaItem<?>.MetaValueItem MOLD_FORM_BALL;
     public static MetaItem<?>.MetaValueItem MOLD_FORM_BLOCK;
