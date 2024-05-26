@@ -18,6 +18,7 @@ import gregtech.api.unification.stack.UnificationEntry;
 import gregtech.common.items.MetaItems;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraftforge.fml.common.Loader;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 
 import java.util.Collections;
@@ -30,6 +31,10 @@ public class GCMaterials implements IMaterialHandler {
     public static FluidMaterial Slime;
     public static IngotMaterial Ardite;
     public static IngotMaterial Manyullyn;
+
+    public static IngotMaterial Kovar;
+    public static IngotMaterial Lavium;
+    public static IngotMaterial Qivium;
 
     public static void recipes() {
         ModHandler.addShapelessRecipe("aluminium_brass", OreDictUnifier.get(OrePrefix.dust, AluminiumBrass, 4), new UnificationEntry(OrePrefix.dust, Materials.Aluminium), new UnificationEntry(OrePrefix.dust, Materials.Aluminium), new UnificationEntry(OrePrefix.dust, Materials.Aluminium), new UnificationEntry(OrePrefix.dust, Materials.Copper));
@@ -70,5 +75,11 @@ public class GCMaterials implements IMaterialHandler {
         Materials.Clay.addFlag(DustMaterial.MatFlags.SMELT_INTO_FLUID);
         Materials.Stone.addFlag(SolidMaterial.MatFlags.GENERATE_ROD);
         Materials.Iron.addFlag(IngotMaterial.MatFlags.GENERATE_ROTOR);
+
+        if (Loader.isModLoaded("tinkers_reforged")) {
+            Kovar = new IngotMaterial(506, "kovar", 0xab86cc, MaterialIconSet.METALLIC, 1, ImmutableList.of(), EXT2_METAL | DustMaterial.MatFlags.GENERATE_ORE, null);
+            Lavium = new IngotMaterial(507, "lavium", 0x8acc49, MaterialIconSet.METALLIC, 2, ImmutableList.of(new MaterialStack(Materials.Glass, 2), new MaterialStack(Materials.Cobalt, 4), new MaterialStack(GCMaterials.Slime, 1)), EXT2_METAL, null, 12.2f, 12.2f, 1250);
+            Qivium = new IngotMaterial(508, "qivium", 0xbf7c98, MaterialIconSet.METALLIC, 2, ImmutableList.of(new MaterialStack(Materials.Glass, 2), new MaterialStack(GCMaterials.Ardite, 4), new MaterialStack(GCMaterials.Slime, 1)), EXT2_METAL, null, 12.2f, 12.2f, 1250);
+        }
     }
 }

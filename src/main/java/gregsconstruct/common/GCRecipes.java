@@ -393,6 +393,12 @@ public class GCRecipes {
 
     }
 
+    public static void initReforgedIntegration() {
+        RecipeMaps.MIXER_RECIPES.recipeBuilder().EUt(16).duration(100).inputs(TinkerCommons.matSlimeBallPurple).fluidInputs(Materials.Glass.getFluid(2000), Materials.Cobalt.getFluid(576)).fluidOutputs(GCMaterials.Lavium.getFluid(288)).buildAndRegister();
+        RecipeMaps.MIXER_RECIPES.recipeBuilder().EUt(16).duration(100).inputs(TinkerCommons.matSlimeBallPurple).fluidInputs(Materials.Glass.getFluid(2000), GCMaterials.Ardite.getFluid(576)).fluidOutputs(GCMaterials.Qivium.getFluid(288)).buildAndRegister();
+        RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(20).fluidInputs(GCMaterials.Kovar.getFluid(288)).input(Blocks.GLASS).outputs(GameRegistry.makeItemStack("tinkers_reforged:kovar_glass", 0, 1, null)).buildAndRegister();
+    }
+
     public static void glassRecipes() {
         removeRecipesByInputs(new ItemStack(Blocks.GLASS));
         removeRecipesByInputs(new ItemStack(Blocks.STAINED_GLASS));

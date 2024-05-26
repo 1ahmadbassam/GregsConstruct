@@ -67,6 +67,13 @@ material.manyullyn=Manyullyn
 material.dirt=Liquid Dirt
 material.greenslime=Liquid Green Slime
 
+material.kovar=Kovar
+material.lavium=Lavium
+material.qivium=Qivium
+material.kovar.name=Kovar
+material.lavium.name=Lavium
+material.qivium.name=Qivium
+
 metaitem.compressed.grout.name=Unfired Seared Brick
 metaitem.seared.plate.name=Seared Brick Plate
 metaitem.scorched.plate.name=Scorched Brick Plate

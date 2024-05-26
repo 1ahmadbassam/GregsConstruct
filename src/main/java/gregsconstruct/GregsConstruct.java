@@ -71,6 +71,8 @@ public class GregsConstruct {
         GCRecipes.initEnhancedIntegration();
         if (Loader.isModLoaded("tcomplement"))
             GCRecipes.initTComplementIntegration();
+        if (Loader.isModLoaded("tinkers_reforged"))
+            GCRecipes.initReforgedIntegration();
         // Recipe generation is done at init, to ensure that alloy recipes are
         // registered if needed before they are removed from the alloy smelter
         GCTinkers.init();
@@ -179,13 +181,14 @@ public class GregsConstruct {
         public void highOvenMixingRemoval(TCompRegisterEvent.HighOvenMixRegisterEvent event) {
             event.setCanceled(true);
         }
+
         @SubscribeEvent(priority = EventPriority.HIGH)
         public void meltingRemoval(TCompRegisterEvent.MelterOverrideRegisterEvent event) {
             events.smeltingRemovalGlobal(event);
         }
 
         @SubscribeEvent(priority = EventPriority.HIGH)
-        public void highOvenMeltingRemoval (TCompRegisterEvent.HighOvenOverrideRegisterEvent event) {
+        public void highOvenMeltingRemoval(TCompRegisterEvent.HighOvenOverrideRegisterEvent event) {
             events.smeltingRemovalGlobal(event);
         }
     }

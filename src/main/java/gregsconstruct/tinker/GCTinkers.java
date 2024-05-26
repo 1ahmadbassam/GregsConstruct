@@ -71,7 +71,8 @@ public class GCTinkers {
                             && mat != Materials.Steel
                             && mat != GCMaterials.Ardite
                             && mat != GCMaterials.Manyullyn
-                    && !(Loader.isModLoaded("materialis") && (mat == Materials.Brass))) {
+                            && !(Loader.isModLoaded("materialis") && (mat == Materials.Brass)
+                            && !(Loader.isModLoaded("tinkers_reforged") && ((mat == GCMaterials.Lavium) || (mat == GCMaterials.Qivium))))) {
                         if (((SolidMaterial) mat).toolDurability > 0) {
                             ingotMaterials.add(new slimeknights.tconstruct.library.materials.Material(mat.toString(), mat.materialRGB).setCastable(true).setCraftable(false));
                             GTIngotMaterials.add((IngotMaterial) mat);
@@ -91,7 +92,7 @@ public class GCTinkers {
                     }
                 }
                 if (mat instanceof GemMaterial && ((GemMaterial) mat).toolDurability > 0
-                && !(Loader.isModLoaded("materialis") && (mat == Materials.Diamond || mat == Materials.Emerald))) {
+                        && !(Loader.isModLoaded("materialis") && (mat == Materials.Diamond || mat == Materials.Emerald))) {
                     gemMaterials.add(new slimeknights.tconstruct.library.materials.Material(mat.toString(), mat.materialRGB).setCastable(false).setCraftable(true));
                     GTGemMaterials.add((GemMaterial) mat);
                 }
