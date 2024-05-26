@@ -70,7 +70,8 @@ public class GCTinkers {
                             && mat != Materials.Electrum
                             && mat != Materials.Steel
                             && mat != GCMaterials.Ardite
-                            && mat != GCMaterials.Manyullyn) {
+                            && mat != GCMaterials.Manyullyn
+                    && !(Loader.isModLoaded("materialis") && (mat == Materials.Brass))) {
                         if (((SolidMaterial) mat).toolDurability > 0) {
                             ingotMaterials.add(new slimeknights.tconstruct.library.materials.Material(mat.toString(), mat.materialRGB).setCastable(true).setCraftable(false));
                             GTIngotMaterials.add((IngotMaterial) mat);
@@ -89,7 +90,8 @@ public class GCTinkers {
                         TinkerRegistry.registerMelting(new UnificationEntry(OrePrefix.oreBasalt, mat).toString(), ((IngotMaterial) mat).getMaterialFluid(), (int) (144 * ((IngotMaterial) mat).oreMultiplier * Config.oreToIngotRatio));
                     }
                 }
-                if (mat instanceof GemMaterial && ((GemMaterial) mat).toolDurability > 0) {
+                if (mat instanceof GemMaterial && ((GemMaterial) mat).toolDurability > 0
+                && !(Loader.isModLoaded("materialis") && (mat == Materials.Diamond || mat == Materials.Emerald))) {
                     gemMaterials.add(new slimeknights.tconstruct.library.materials.Material(mat.toString(), mat.materialRGB).setCastable(false).setCraftable(true));
                     GTGemMaterials.add((GemMaterial) mat);
                 }
