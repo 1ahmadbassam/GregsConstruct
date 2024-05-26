@@ -223,7 +223,7 @@ public class GCRecipes {
         }
 
         ModHandler.removeRecipes(TinkerTools.pattern);
-        ModHandler.addShapedRecipe("tconstruct_pattern", new ItemStack(TinkerTools.pattern, 2), "s", "P", "P", 'P', new UnificationEntry(OrePrefix.plank, Materials.Wood));
+        ModHandler.addShapedRecipe("tconstruct_pattern", new ItemStack(TinkerTools.pattern), " P", "s ", 'P', MetaItems.WOODEN_FORM_EMPTY);
 
         ModHandler.removeRecipes(new ItemStack(TinkerTools.toolTables));
         ModHandler.addShapedRecipe("tconstruct_workbench", new ItemStack(TinkerTools.toolTables), "W", "s", 'W', "workbench");
@@ -285,6 +285,10 @@ public class GCRecipes {
         RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().EUt(1).input(OrePrefix.stick, Materials.Stone).inputs(new ItemStack(Items.COAL, 1, W)).outputs(new ItemStack(TinkerGadgets.stoneTorch, 4)).duration(400).buildAndRegister();
         RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().EUt(1).input(OrePrefix.stick, Materials.Stone).input(OrePrefix.dust, Materials.Sulfur, 1).outputs(new ItemStack(TinkerGadgets.stoneTorch, 2)).duration(400).buildAndRegister();
         RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().EUt(1).input(OrePrefix.stick, Materials.Stone).input(OrePrefix.dust, Materials.Phosphorus, 1).outputs(new ItemStack(TinkerGadgets.stoneTorch, 6)).duration(400).buildAndRegister();
+    }
+
+    public static void initTComplementIntegration() {
+
     }
 
     public static void glassRecipes() {

@@ -10,14 +10,17 @@ import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.material.type.IngotMaterial;
 import gregtech.api.unification.material.type.Material;
 import gregtech.api.unification.ore.OrePrefix;
+import knightminer.tcomplement.library.events.TCompRegisterEvent;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -35,7 +38,7 @@ import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 @Mod(modid = GregsConstruct.MODID,
         name = GregsConstruct.NAME,
         version = GregsConstruct.VERSION,
-        dependencies = "required-after:gregtech;required-after:tconstruct;after:gtadditions")
+        dependencies = "required-after:gregtech;required-after:tconstruct;after:gtadditions;after:tcomplement")
 public class GregsConstruct {
     public static final String MODID = "gtconstruct";
     public static final String NAME = "Greg's Construct";
@@ -43,8 +46,14 @@ public class GregsConstruct {
 
     public static Logger logger;
 
+    public GregsConstruct() {
+        if (Loader.isModLoaded("tcomplement"))
+            MinecraftForge.EVENT_BUS.register(new TinkerComplementEventBus());
+    }
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+
         logger = event.getModLog();
         GCMetaItems.init();
 
@@ -59,6 +68,8 @@ public class GregsConstruct {
         GCTinkers.unifyAluminium();
         GCRecipes.furnaceRecipes();
         GCRecipes.initEnhancedIntegration();
+        if (Loader.isModLoaded("tcomplement"))
+            GCRecipes.initTComplementIntegration();
         // Recipe generation is done at init, to ensure that alloy recipes are
         // registered if needed before they are removed from the alloy smelter
         GCTinkers.init();
@@ -67,6 +78,8 @@ public class GregsConstruct {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         GCTinkers.postInit();
+        if (Loader.isModLoaded("tcomplement"))
+            GCTinkers.postInitTComplement();
     }
 
     @Mod.EventBusSubscriber
@@ -153,6 +166,13 @@ public class GregsConstruct {
 
         private static boolean matches(TinkerRegisterEvent.MeltingRegisterEvent e, OrePrefix prefix, Material mat) {
             return e.getRecipe().input.matches(NonNullList.withSize(1, OreDictUnifier.get(prefix, mat))).isPresent();
+        }
+    }
+
+    public static class TinkerComplementEventBus {
+        @SubscribeEvent(priority = EventPriority.HIGH)
+        public void highOvenMixingRemoval(TCompRegisterEvent.HighOvenMixRegisterEvent event) {
+            event.setCanceled(true);
         }
     }
 }

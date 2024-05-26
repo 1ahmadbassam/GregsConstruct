@@ -64,6 +64,7 @@ public class GCMaterials implements IMaterialHandler {
         Dirt = new FluidMaterial(504, "dirt", 0x735137, MaterialIconSet.ROUGH, ImmutableList.of(), DustMaterial.MatFlags.SMELT_INTO_FLUID);
         Slime = new FluidMaterial(505, "greenslime", 0x82c873, MaterialIconSet.SHINY, ImmutableList.of(), DustMaterial.MatFlags.SMELT_INTO_FLUID | DustMaterial.MatFlags.EXCLUDE_BLOCK_CRAFTING_RECIPES);
         AluminiumBrass.setFluidTemperature(500);
+        Slime.setFluidTemperature(500);
         Materials.Emerald.addFlag(DustMaterial.MatFlags.SMELT_INTO_FLUID);
         Materials.Obsidian.addFlag(DustMaterial.MatFlags.SMELT_INTO_FLUID);
         Materials.Clay.addFlag(DustMaterial.MatFlags.SMELT_INTO_FLUID);

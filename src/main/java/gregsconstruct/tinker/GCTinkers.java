@@ -307,10 +307,15 @@ public class GCTinkers {
             TinkerRegistry.registerMelting(new ItemStack(TinkerCommons.blockSlime), GCMaterials.Slime.getMaterialFluid(), 2250);
             TinkerRegistry.registerMelting(new ItemStack(TinkerCommons.blockSlimeCongealed), GCMaterials.Slime.getMaterialFluid(), 1000);
         }
-
+        TinkerFluids.blueslime.setTemperature(500);
         TinkerRegistry.registerMelting(TinkerCommons.matSlimeBallBlue, TinkerFluids.blueslime, 250);
-        TinkerRegistry.registerMelting(new ItemStack(TinkerCommons.blockSlime, 1, BlockSlime.SlimeType.BLUE.meta), GCMaterials.Slime.getMaterialFluid(), 2250);
-        TinkerRegistry.registerMelting(new ItemStack(TinkerCommons.blockSlime, 1, BlockSlime.SlimeType.BLUE.meta), GCMaterials.Slime.getMaterialFluid(), 1000);
+        TinkerRegistry.registerMelting(new ItemStack(TinkerCommons.blockSlime, 1, BlockSlime.SlimeType.BLUE.meta), TinkerFluids.blueslime, 2250);
+        TinkerRegistry.registerMelting(new ItemStack(TinkerCommons.blockSlime, 1, BlockSlime.SlimeType.BLUE.meta), TinkerFluids.blueslime, 1000);
+    }
+
+    public static void postInitTComplement() {
+        Materials.Steel.setFluidTemperature(Materials.Steel.blastFurnaceTemperature);
+
     }
 
     private static void registerTinkerMelting(String oreDict, Fluid fluid, int amount) {
