@@ -13,6 +13,7 @@ import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.ore.OrePrefix;
 import gregtech.api.unification.stack.MaterialStack;
 import gregtech.api.unification.stack.UnificationEntry;
+import gregtech.api.util.GTUtility;
 import gregtech.common.items.MetaItems;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -147,11 +148,7 @@ public class GCRecipes {
 
         RecipeMaps.MIXER_RECIPES.recipeBuilder().EUt(16).duration(100).input("sand", 1).input("dirt", 1).fluidInputs(GCMaterials.Slime.getFluid(1000)).outputs(TinkerCommons.slimyMudGreen).buildAndRegister();
         RecipeMaps.MIXER_RECIPES.recipeBuilder().EUt(16).duration(100).input("sand", 1).input("dirt", 1).fluidInputs(new FluidStack(TinkerFluids.blueslime, 1000)).outputs(TinkerCommons.slimyMudBlue).buildAndRegister();
-        {
-            ItemStack slimeMagma2 = TinkerCommons.matSlimeBallMagma.copy();
-            slimeMagma2.setCount(2);
-            RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().EUt(32).duration(100).input(Blocks.SOUL_SAND).inputs(slimeMagma2).fluidInputs(GCMaterials.Slime.getFluid(500), Materials.Blaze.getFluid(288)).outputs(TinkerCommons.slimyMudMagma).buildAndRegister();
-        }
+        RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().EUt(32).duration(100).input(Blocks.SOUL_SAND).inputs(GTUtility.copyAmount(2, TinkerCommons.matSlimeBallMagma)).fluidInputs(GCMaterials.Slime.getFluid(500), Materials.Blaze.getFluid(288)).outputs(TinkerCommons.slimyMudMagma).buildAndRegister();
 
         //Knightslime
         RecipeMaps.MIXER_RECIPES.recipeBuilder().EUt(16).duration(50).inputs(TinkerCommons.matSlimeBallPurple).fluidInputs(Materials.Iron.getFluid(144), new FluidStack(TinkerFluids.searedStone, 288)).fluidOutputs(new FluidStack(TinkerFluids.knightslime, 144)).buildAndRegister();
@@ -160,11 +157,8 @@ public class GCRecipes {
         RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().EUt(32).duration(8).input("nuggetKnightslime", 1).fluidOutputs(new FluidStack(TinkerFluids.knightslime, 16)).buildAndRegister();
         RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(10).fluidInputs(new FluidStack(TinkerFluids.knightslime, 144)).notConsumable(MetaItems.SHAPE_MOLD_INGOT).outputs(TinkerCommons.ingotKnightSlime).buildAndRegister();
         RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(90).fluidInputs(new FluidStack(TinkerFluids.knightslime, 1296)).notConsumable(MetaItems.SHAPE_MOLD_BLOCK).outputs(TinkerCommons.blockKnightSlime).buildAndRegister();
-        {
-            ItemStack nugget9 = TinkerCommons.nuggetKnightSlime.copy();
-            nugget9.setCount(9);
-            RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(40).fluidInputs(new FluidStack(TinkerFluids.knightslime, 144)).notConsumable(MetaItems.SHAPE_MOLD_NUGGET).outputs(nugget9).buildAndRegister();
-        }
+        RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(40).fluidInputs(new FluidStack(TinkerFluids.knightslime, 144)).notConsumable(MetaItems.SHAPE_MOLD_NUGGET).outputs(GTUtility.copyAmount(9, TinkerCommons.nuggetKnightSlime)).buildAndRegister();
+
         RecipeMaps.ALLOY_SMELTER_RECIPES.recipeBuilder().EUt(32).duration(6).input("ingotKnightslime", 9).notConsumable(MetaItems.SHAPE_MOLD_BLOCK).outputs(TinkerCommons.blockKnightSlime).buildAndRegister();
         RecipeMaps.EXTRUDER_RECIPES.recipeBuilder().EUt(64).duration(10).input("ingotKnightslime", 9).notConsumable(MetaItems.SHAPE_EXTRUDER_BLOCK).outputs(TinkerCommons.blockKnightSlime).buildAndRegister();
 
@@ -175,11 +169,8 @@ public class GCRecipes {
         RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().EUt(32).duration(8).input("nuggetPigiron", 1).fluidOutputs(new FluidStack(TinkerFluids.pigIron, 16)).buildAndRegister();
         RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(10).fluidInputs(new FluidStack(TinkerFluids.pigIron, 144)).notConsumable(MetaItems.SHAPE_MOLD_INGOT).outputs(TinkerCommons.ingotPigIron).buildAndRegister();
         RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(90).fluidInputs(new FluidStack(TinkerFluids.pigIron, 1296)).notConsumable(MetaItems.SHAPE_MOLD_BLOCK).outputs(TinkerCommons.blockPigIron).buildAndRegister();
-        {
-            ItemStack nugget9 = TinkerCommons.nuggetPigIron.copy();
-            nugget9.setCount(9);
-            RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(40).fluidInputs(new FluidStack(TinkerFluids.pigIron, 144)).notConsumable(MetaItems.SHAPE_MOLD_NUGGET).outputs(nugget9).buildAndRegister();
-        }
+        RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(40).fluidInputs(new FluidStack(TinkerFluids.pigIron, 144)).notConsumable(MetaItems.SHAPE_MOLD_NUGGET).outputs(GTUtility.copyAmount(9, TinkerCommons.nuggetPigIron)).buildAndRegister();
+
         RecipeMaps.ALLOY_SMELTER_RECIPES.recipeBuilder().EUt(32).duration(6).input("ingotPigiron", 9).notConsumable(MetaItems.SHAPE_MOLD_BLOCK).outputs(TinkerCommons.blockPigIron).buildAndRegister();
         RecipeMaps.EXTRUDER_RECIPES.recipeBuilder().EUt(64).duration(10).input("ingotPigiron", 9).notConsumable(MetaItems.SHAPE_EXTRUDER_BLOCK).outputs(TinkerCommons.blockPigIron).buildAndRegister();
 
@@ -196,11 +187,8 @@ public class GCRecipes {
         ModHandler.removeRecipes(TinkerCommons.matSilkyCloth);
         RecipeMaps.FORMING_PRESS_RECIPES.recipeBuilder().EUt(1920).duration(200).input(OrePrefix.ingot, Materials.Polycaprolactam, 8).input(OrePrefix.ingot, Materials.Gold).outputs(TinkerCommons.matSilkyCloth).buildAndRegister();
         ModHandler.removeRecipes(TinkerCommons.matSilkyJewel);
-        {
-            ItemStack silky4 = TinkerCommons.matSilkyCloth.copy();
-            silky4.setCount(4);
-            RecipeMaps.AUTOCLAVE_RECIPES.recipeBuilder().EUt(1920).duration(185).inputs(silky4).fluidInputs(Materials.Emerald.getFluid(144)).outputs(TinkerCommons.matSilkyJewel).buildAndRegister();
-        }
+        RecipeMaps.AUTOCLAVE_RECIPES.recipeBuilder().EUt(1920).duration(185).inputs(GTUtility.copyAmount(4, TinkerCommons.matSilkyCloth)).fluidInputs(Materials.Emerald.getFluid(144)).outputs(TinkerCommons.matSilkyJewel).buildAndRegister();
+
         RecipeMaps.CHEMICAL_BATH_RECIPES.recipeBuilder().EUt(64).duration(135).input("bone", 1).fluidInputs(Materials.OilHeavy.getFluid(250)).outputs(TinkerCommons.matNecroticBone).buildAndRegister();
 
         RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(25).fluidInputs(GCMaterials.Blood.getFluid(160)).notConsumable(MetaItems.SHAPE_MOLD_BALL).outputs(TinkerCommons.matSlimeBallBlood).buildAndRegister();
@@ -218,11 +206,7 @@ public class GCRecipes {
             RecipeMaps.CHEMICAL_BATH_RECIPES.recipeBuilder().EUt(32).duration(80).input("dirt", 1).fluidInputs(GCMaterials.Slime.getFluid(1000)).outputs(new ItemStack(TinkerWorld.slimeDirt, 1, BlockSlimeDirt.DirtType.GREEN.getMeta())).buildAndRegister();
             RecipeMaps.CHEMICAL_BATH_RECIPES.recipeBuilder().EUt(32).duration(80).input("dirt", 1).fluidInputs(new FluidStack(TinkerFluids.blueslime, 1000)).outputs(new ItemStack(TinkerWorld.slimeDirt, 1, BlockSlimeDirt.DirtType.BLUE.getMeta())).buildAndRegister();
             RecipeMaps.CHEMICAL_BATH_RECIPES.recipeBuilder().EUt(32).duration(80).input("dirt", 1).fluidInputs(new FluidStack(TinkerFluids.purpleSlime, 1000)).outputs(new ItemStack(TinkerWorld.slimeDirt, 1, BlockSlimeDirt.DirtType.PURPLE.getMeta())).buildAndRegister();
-            {
-                ItemStack slimeMagma4 = TinkerCommons.matSlimeBallMagma.copy();
-                slimeMagma4.setCount(4);
-                RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().EUt(32).duration(160).input("dirt", 1).inputs(slimeMagma4).fluidInputs(GCMaterials.Slime.getFluid(500), Materials.Blaze.getFluid(288)).outputs(new ItemStack(TinkerWorld.slimeDirt, 1, BlockSlimeDirt.DirtType.MAGMA.getMeta())).buildAndRegister();
-            }
+            RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().EUt(32).duration(160).input("dirt", 1).inputs(GTUtility.copyAmount(4, TinkerCommons.matSlimeBallMagma)).fluidInputs(GCMaterials.Slime.getFluid(500), Materials.Blaze.getFluid(288)).outputs(new ItemStack(TinkerWorld.slimeDirt, 1, BlockSlimeDirt.DirtType.MAGMA.getMeta())).buildAndRegister();
         }
         RecipeMaps.FORGE_HAMMER_RECIPES.recipeBuilder().EUt(8).duration(200).inputs(new ItemStack(TinkerSmeltery.searedBlock, 1, BlockSeared.SearedType.BRICK.getMeta())).outputs(new ItemStack(TinkerSmeltery.searedBlock, 1, BlockSeared.SearedType.BRICK_CRACKED.getMeta())).buildAndRegister();
 
@@ -235,11 +219,7 @@ public class GCRecipes {
         if (GCConfig.General.alternateSlimeTreeRecipes) {
             RecipeMaps.CHEMICAL_BATH_RECIPES.recipeBuilder().EUt(16).duration(40).input("treeSapling", 1).fluidInputs(GCMaterials.Slime.getFluid(500)).outputs(new ItemStack(TinkerWorld.slimeSapling, 1, 0)).buildAndRegister();
             RecipeMaps.CHEMICAL_BATH_RECIPES.recipeBuilder().EUt(16).duration(40).input("treeSapling", 1).fluidInputs(new FluidStack(TinkerFluids.purpleSlime, 500)).outputs(new ItemStack(TinkerWorld.slimeSapling, 1, 1)).buildAndRegister();
-            {
-                ItemStack slimeMagma2 = TinkerCommons.matSlimeBallMagma.copy();
-                slimeMagma2.setCount(2);
-                RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().EUt(32).duration(40).input("treeSapling", 1).inputs(slimeMagma2).fluidInputs(GCMaterials.Slime.getFluid(250), Materials.Blaze.getFluid(144)).outputs(new ItemStack(TinkerWorld.slimeSapling, 1, 2)).buildAndRegister();
-            }
+            RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().EUt(32).duration(40).input("treeSapling", 1).inputs(GTUtility.copyAmount(2, TinkerCommons.matSlimeBallMagma)).fluidInputs(GCMaterials.Slime.getFluid(250), Materials.Blaze.getFluid(144)).outputs(new ItemStack(TinkerWorld.slimeSapling, 1, 2)).buildAndRegister();
         }
 
         ModHandler.removeRecipes(TinkerTools.pattern);
@@ -294,11 +274,8 @@ public class GCRecipes {
 
         ModHandler.removeRecipes(TinkerGadgets.throwball);
         RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().EUt(18).duration(14).input(Items.SNOWBALL).fluidInputs(Materials.Glowstone.getFluid(18), Materials.Blaze.getFluid(18)).outputs(new ItemStack(TinkerGadgets.throwball)).buildAndRegister();
-        {
-            ItemStack blood2 = TinkerCommons.matSlimeBallBlood.copy();
-            blood2.setCount(2);
-            RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().EUt(24).duration(64).inputs(MetaItems.GELLED_TOLUENE.getStackForm(2), blood2).fluidInputs(Materials.SulfuricAcid.getFluid(125)).outputs(new ItemStack(TinkerGadgets.throwball, 2, 1)).buildAndRegister();
-        }
+        RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().EUt(24).duration(64).inputs(MetaItems.GELLED_TOLUENE.getStackForm(2), GTUtility.copyAmount(2, TinkerCommons.matSlimeBallBlood)).fluidInputs(Materials.SulfuricAcid.getFluid(125)).outputs(new ItemStack(TinkerGadgets.throwball, 2, 1)).buildAndRegister();
+
         RecipeMaps.AUTOCLAVE_RECIPES.recipeBuilder().EUt(16).duration(4000).input(Items.WHEAT, 16).fluidInputs(Materials.Water.getFluid(1000)).output(TinkerGadgets.spaghetti).buildAndRegister();
 
         ModHandler.addShapedRecipe("rubber_drop_stone_torch", new ItemStack(TinkerGadgets.stoneTorch, 3), "X", "Y", 'X', MetaItems.RUBBER_DROP, 'Y', new UnificationEntry(OrePrefix.stick, Materials.Stone));

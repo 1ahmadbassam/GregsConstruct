@@ -19,8 +19,6 @@ public class FluidTemp implements IMaterialHandler {
                 else if (mat != Materials.Ice && mat != Materials.Water && ((FluidMaterial) mat).getFluidTemperature() <= 300)
                     ((FluidMaterial) mat).setFluidTemperature(500);
             }
-        if (Loader.isModLoaded("gtadditions"))
-            GAMaterials.FishOil.setFluidTemperature(1974);
         Materials.SeedOil.setFluidTemperature(1774);
         Materials.Creosote.setFluidTemperature(1900);
         Materials.Biomass.setFluidTemperature(1900);

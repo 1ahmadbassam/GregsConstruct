@@ -279,8 +279,10 @@ public class GCTinkers {
         }
         TinkerRegistry.registerSmelteryFuel(Materials.Steam.getFluid(64), 2);
         TinkerRegistry.registerSmelteryFuel(Materials.SeedOil.getFluid(64), 10);
-        if (Loader.isModLoaded("gtadditions"))
+        if (Loader.isModLoaded("gtadditions")) {
+            GAMaterials.FishOil.setFluidTemperature(1974);
             TinkerRegistry.registerSmelteryFuel(GAMaterials.FishOil.getFluid(64), 10);
+        }
         TinkerRegistry.registerSmelteryFuel(Materials.Creosote.getFluid(16), 2);
         TinkerRegistry.registerSmelteryFuel(Materials.Biomass.getFluid(16), 2);
         TinkerRegistry.registerSmelteryFuel(Materials.NaquadahEnriched.getFluid(1), 750);

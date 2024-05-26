@@ -1,6 +1,5 @@
 package gregsconstruct;
 
-import gregicadditions.GAConfig;
 import gregsconstruct.common.GCMaterials;
 import gregsconstruct.common.GCMetaItems;
 import gregsconstruct.common.GCRecipes;
@@ -13,7 +12,6 @@ import gregtech.api.unification.material.type.Material;
 import gregtech.api.unification.ore.OrePrefix;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
@@ -29,10 +27,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Logger;
 import slimeknights.tconstruct.common.config.Config;
-import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.events.TinkerRegisterEvent;
 import slimeknights.tconstruct.library.smeltery.CastingRecipe;
-import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerFluids;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 
@@ -94,8 +90,8 @@ public class GregsConstruct {
                 if (event.getRecipe() instanceof CastingRecipe
                         && (event.getRecipe().matches(TinkerSmeltery.castPlate, ((CastingRecipe) event.getRecipe()).getFluid().getFluid())
                         || event.getRecipe().matches(TinkerSmeltery.castGear, ((CastingRecipe) event.getRecipe()).getFluid().getFluid())
-                        || ItemStack.areItemStacksEqual(((CastingRecipe) event.getRecipe()).getResult(),TinkerSmeltery.castPlate)
-                        || ItemStack.areItemStacksEqual(((CastingRecipe) event.getRecipe()).getResult(),TinkerSmeltery.castGear)))
+                        || ItemStack.areItemStacksEqual(((CastingRecipe) event.getRecipe()).getResult(), TinkerSmeltery.castPlate)
+                        || ItemStack.areItemStacksEqual(((CastingRecipe) event.getRecipe()).getResult(), TinkerSmeltery.castGear)))
                     event.setCanceled(true);
             }
             if (event.getRecipe() instanceof CastingRecipe) {
