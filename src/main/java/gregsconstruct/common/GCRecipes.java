@@ -24,7 +24,6 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import slimeknights.tconstruct.gadgets.TinkerGadgets;
-import slimeknights.tconstruct.gadgets.item.ItemFancyItemFrame;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerFluids;
 import slimeknights.tconstruct.shared.block.BlockSlime;
@@ -154,6 +153,7 @@ public class GCRecipes {
             RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().EUt(32).duration(100).input(Blocks.SOUL_SAND).inputs(slimeMagma2).fluidInputs(GCMaterials.Slime.getFluid(500), Materials.Blaze.getFluid(288)).outputs(TinkerCommons.slimyMudMagma).buildAndRegister();
         }
 
+        //Knightslime
         RecipeMaps.MIXER_RECIPES.recipeBuilder().EUt(16).duration(50).inputs(TinkerCommons.matSlimeBallPurple).fluidInputs(Materials.Iron.getFluid(144), new FluidStack(TinkerFluids.searedStone, 288)).fluidOutputs(new FluidStack(TinkerFluids.knightslime, 144)).buildAndRegister();
         RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().EUt(32).duration(80).input("ingotKnightslime", 1).fluidOutputs(new FluidStack(TinkerFluids.knightslime, 144)).buildAndRegister();
         RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().EUt(32).duration(720).input("blockKnightslime", 1).fluidOutputs(new FluidStack(TinkerFluids.knightslime, 1296)).buildAndRegister();
@@ -167,6 +167,21 @@ public class GCRecipes {
         }
         RecipeMaps.ALLOY_SMELTER_RECIPES.recipeBuilder().EUt(32).duration(6).input("ingotKnightslime", 9).notConsumable(MetaItems.SHAPE_MOLD_BLOCK).outputs(TinkerCommons.blockKnightSlime).buildAndRegister();
         RecipeMaps.EXTRUDER_RECIPES.recipeBuilder().EUt(64).duration(10).input("ingotKnightslime", 9).notConsumable(MetaItems.SHAPE_EXTRUDER_BLOCK).outputs(TinkerCommons.blockKnightSlime).buildAndRegister();
+
+        //Pigiron
+        RecipeMaps.MIXER_RECIPES.recipeBuilder().EUt(16).duration(100).input(Items.CLAY_BALL).fluidInputs(Materials.Iron.getFluid(288), new FluidStack(TinkerFluids.blood, 80)).fluidOutputs(new FluidStack(TinkerFluids.pigIron, 288)).buildAndRegister();
+        RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().EUt(32).duration(80).input("ingotPigiron", 1).fluidOutputs(new FluidStack(TinkerFluids.pigIron, 144)).buildAndRegister();
+        RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().EUt(32).duration(720).input("blockPigiron", 1).fluidOutputs(new FluidStack(TinkerFluids.pigIron, 1296)).buildAndRegister();
+        RecipeMaps.FLUID_EXTRACTION_RECIPES.recipeBuilder().EUt(32).duration(8).input("nuggetPigiron", 1).fluidOutputs(new FluidStack(TinkerFluids.pigIron, 16)).buildAndRegister();
+        RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(10).fluidInputs(new FluidStack(TinkerFluids.pigIron, 144)).notConsumable(MetaItems.SHAPE_MOLD_INGOT).outputs(TinkerCommons.ingotPigIron).buildAndRegister();
+        RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(90).fluidInputs(new FluidStack(TinkerFluids.pigIron, 1296)).notConsumable(MetaItems.SHAPE_MOLD_BLOCK).outputs(TinkerCommons.blockPigIron).buildAndRegister();
+        {
+            ItemStack nugget9 = TinkerCommons.nuggetPigIron.copy();
+            nugget9.setCount(9);
+            RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(40).fluidInputs(new FluidStack(TinkerFluids.pigIron, 144)).notConsumable(MetaItems.SHAPE_MOLD_NUGGET).outputs(nugget9).buildAndRegister();
+        }
+        RecipeMaps.ALLOY_SMELTER_RECIPES.recipeBuilder().EUt(32).duration(6).input("ingotPigiron", 9).notConsumable(MetaItems.SHAPE_MOLD_BLOCK).outputs(TinkerCommons.blockPigIron).buildAndRegister();
+        RecipeMaps.EXTRUDER_RECIPES.recipeBuilder().EUt(64).duration(10).input("ingotPigiron", 9).notConsumable(MetaItems.SHAPE_EXTRUDER_BLOCK).outputs(TinkerCommons.blockPigIron).buildAndRegister();
 
         ModHandler.removeRecipes(TinkerCommons.matExpanderH);
         ModHandler.removeRecipes(TinkerCommons.matExpanderW);

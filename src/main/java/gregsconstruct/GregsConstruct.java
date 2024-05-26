@@ -1,5 +1,6 @@
 package gregsconstruct;
 
+import gregicadditions.GAConfig;
 import gregsconstruct.common.GCMaterials;
 import gregsconstruct.common.GCMetaItems;
 import gregsconstruct.common.GCRecipes;
@@ -12,6 +13,7 @@ import gregtech.api.unification.material.type.Material;
 import gregtech.api.unification.ore.OrePrefix;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
@@ -27,10 +29,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Logger;
 import slimeknights.tconstruct.common.config.Config;
+import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.events.TinkerRegisterEvent;
-import slimeknights.tconstruct.library.smeltery.Cast;
 import slimeknights.tconstruct.library.smeltery.CastingRecipe;
+import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerFluids;
+import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 
 @Mod(modid = GregsConstruct.MODID,
         name = GregsConstruct.NAME,
@@ -86,11 +90,20 @@ public class GregsConstruct {
 
         @SubscribeEvent(priority = EventPriority.HIGH)
         public static void tableCastingRemoval(TinkerRegisterEvent.TableCastingRegisterEvent event) {
-            if (event.getRecipe() instanceof CastingRecipe)
+            if (GCConfig.Special.simpleCasting) {
+                if (event.getRecipe() instanceof CastingRecipe
+                        && (event.getRecipe().matches(TinkerSmeltery.castPlate, ((CastingRecipe) event.getRecipe()).getFluid().getFluid())
+                        || event.getRecipe().matches(TinkerSmeltery.castGear, ((CastingRecipe) event.getRecipe()).getFluid().getFluid())
+                        || ItemStack.areItemStacksEqual(((CastingRecipe) event.getRecipe()).getResult(),TinkerSmeltery.castPlate)
+                        || ItemStack.areItemStacksEqual(((CastingRecipe) event.getRecipe()).getResult(),TinkerSmeltery.castGear)))
+                    event.setCanceled(true);
+            }
+            if (event.getRecipe() instanceof CastingRecipe) {
                 if (((CastingRecipe) event.getRecipe()).getFluid().isFluidEqual(new FluidStack(TinkerFluids.aluminum, 1))
                         || (((CastingRecipe) event.getRecipe()).getFluid().isFluidEqual(new FluidStack(TinkerFluids.alubrass, 1))
                         || (TinkerFluids.emerald != null && (((CastingRecipe) event.getRecipe()).getFluid().isFluidStackIdentical(new FluidStack(TinkerFluids.emerald, 666))))))
                     event.setCanceled(true);
+            }
         }
 
         @SubscribeEvent(priority = EventPriority.HIGH)
@@ -100,7 +113,7 @@ public class GregsConstruct {
                         || (((CastingRecipe) event.getRecipe()).getFluid().isFluidEqual(new FluidStack(TinkerFluids.alubrass, 1)))
                         || (((CastingRecipe) event.getRecipe()).getFluid().isFluidStackIdentical(new FluidStack(TinkerFluids.obsidian, 288))
                         || (TinkerFluids.emerald != null && (((CastingRecipe) event.getRecipe()).getFluid().isFluidStackIdentical(new FluidStack(TinkerFluids.emerald, 5994))))))
-            event.setCanceled(true);
+                    event.setCanceled(true);
         }
 
         @SubscribeEvent(priority = EventPriority.HIGH)

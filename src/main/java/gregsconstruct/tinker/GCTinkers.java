@@ -1,6 +1,7 @@
 package gregsconstruct.tinker;
 
 import gregicadditions.GAMaterials;
+import gregsconstruct.GCConfig;
 import gregsconstruct.GCUtils;
 import gregsconstruct.common.GCMaterials;
 import gregsconstruct.common.GCMetaItems;
@@ -231,8 +232,10 @@ public class GCTinkers {
         castMap.put(OrePrefix.ingot, TinkerSmeltery.castIngot);
         castMap.put(OrePrefix.nugget, TinkerSmeltery.castNugget);
         castMap.put(OrePrefix.gem, TinkerSmeltery.castGem);
-        castMap.put(OrePrefix.plate, TinkerSmeltery.castPlate);
-        castMap.put(OrePrefix.gear, TinkerSmeltery.castGear);
+        if (!GCConfig.Special.simpleCasting) {
+            castMap.put(OrePrefix.plate, TinkerSmeltery.castPlate);
+            castMap.put(OrePrefix.gear, TinkerSmeltery.castGear);
+        }
         // At post init, everything must've registered
         for (Material mat : Material.MATERIAL_REGISTRY) {
             if (mat != Materials.Glass
@@ -293,7 +296,8 @@ public class GCTinkers {
         TinkerRegistry.registerMelting("obsidian", TinkerFluids.obsidian, 144);
         TinkerRegistry.registerBasinCasting(new ItemStack(Blocks.OBSIDIAN), ItemStack.EMPTY, TinkerFluids.obsidian, 144);
         TinkerRegistry.registerMelting("plateBrickSeared", TinkerFluids.searedStone, 72);
-        TinkerRegistry.registerTableCasting(GCMetaItems.SEARED_BRICK_PLATE.getStackForm(), TinkerSmeltery.castPlate, TinkerFluids.searedStone, 72);
+        if (!GCConfig.Special.simpleCasting)
+            TinkerRegistry.registerTableCasting(GCMetaItems.SEARED_BRICK_PLATE.getStackForm(), TinkerSmeltery.castPlate, TinkerFluids.searedStone, 72);
 
         if (GCMaterials.Slime.getMaterialFluid() != null) {
             TinkerRegistry.registerMelting(Items.SLIME_BALL, GCMaterials.Slime.getMaterialFluid(), 250);
