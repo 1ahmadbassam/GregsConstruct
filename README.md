@@ -21,18 +21,35 @@ For an enhanced GregTech CE experience bringing over GT5U and GT6 features to GT
 APIs, and GregBlock is currently stuck on GTCE, so I will not likely be the one doing the port.**
 
 ### Mod Features
-1. Registration of all GTCE materials in Tinker's smeltery.
-2. Registration of all tool-craftable GTCE materials as tool-craftable Tinker materials.
-3. GTCE Alloys in Tinker's alloying registry, with automatic generation for any alloy smelter recipes.
-4. Support for casting GTCE materials with Tinker's casting.
-5. Fixing the many inconsistencies between Tinker's material registry and GregTech's one, namely Glass and Emerald.
-6. More challenging Glass production.
-7. Full support for all Tinker's Construct materials into GregTech, namely Aluminium Brass, Ardite, and Manyullyn.
-8. GregTech CE extruder molds and mold shapes are created using Tinker's casting, by casting Steel on a shape.
-9. Compressed Grout and Seared Brick plates.
-10. More challenging recipes for almost everything in Tinker's Construct, using appropriate GregTech machines.
+- Registration of all GTCE materials in Tinker's smeltery.
+- Registration of all tool-craftable GTCE materials as tool-craftable Tinker materials.
+- GTCE Alloys in Tinker's alloying registry, with automatic generation for any alloy smelter recipes.
+- Support for casting GTCE materials with Tinker's casting.
+- Fixing the many inconsistencies between Tinker's material registry and GregTech's one, namely Glass and Emerald.
+- More challenging Glass production.
+- Full support for all Tinker's Construct materials into GregTech, namely Aluminium Brass, Ardite, and Manyullyn.
+- GregTech CE extruder molds and mold shapes are created using Tinker's casting, by casting Steel on a shape.
+- Compressed Grout and Seared Brick plates.
+- More challenging recipes for almost everything in Tinker's Construct, using appropriate GregTech machines.
+- Support for most popular addons for Tinker's Construct, as well as for GregicAdditions Unofficial.
 
-Support for more Tinker's Construct addons is coming in future versions.
+### Supported Tinker's Construct Addons
+The following addons are natively supported by Greg's Construct:
+
+- [Tinkers' Complement](https://legacy.curseforge.com/minecraft/mc-mods/tinkers-complement) (w/[Ceramics](https://legacy.curseforge.com/minecraft/mc-mods/ceramics))
+- [Construct's Armory](https://legacy.curseforge.com/minecraft/mc-mods/constructs-armory)
+- [Tinker I/O](https://legacy.curseforge.com/minecraft/mc-mods/tinker-i-o)
+- [Vials](https://legacy.curseforge.com/minecraft/mc-mods/vials)
+- [Tinkers Reforged](https://legacy.curseforge.com/minecraft/mc-mods/tinkers-reforged) (I do _not_ recommend you use this addon)
+
+The following addons have been tested to be compatible with Greg's Construct:
+
+- [Tinkers' Tool Leveling](https://legacy.curseforge.com/minecraft/mc-mods/tinkers-tool-leveling)
+- [Moar Tinkers](https://legacy.curseforge.com/minecraft/mc-mods/moar-tinkers)
+- [Materialis](https://legacy.curseforge.com/minecraft/mc-mods/materialis)
+- [Armory Expansion](https://legacy.curseforge.com/minecraft/mc-mods/armory-expansion)
+- [Tinker's JEI](https://legacy.curseforge.com/minecraft/mc-mods/tinkers-jei)
+- [Tinkers OreDict Cache](https://legacy.curseforge.com/minecraft/mc-mods/tinkers-oredict-cache)
 
 ### License
 This project is licensed under the [GNU Lesser General Public License v3.0](https://www.gnu.org/licenses/lgpl-3.0.en.html).
