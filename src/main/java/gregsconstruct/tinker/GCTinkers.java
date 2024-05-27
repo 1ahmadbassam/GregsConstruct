@@ -1,5 +1,8 @@
 package gregsconstruct.tinker;
 
+import c4.conarm.lib.materials.CoreMaterialStats;
+import c4.conarm.lib.materials.PlatesMaterialStats;
+import c4.conarm.lib.materials.TrimMaterialStats;
 import gregicadditions.GAMaterials;
 import gregsconstruct.GCConfig;
 import gregsconstruct.GCUtils;
@@ -19,6 +22,7 @@ import knightminer.tcomplement.library.TCompRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -134,8 +138,13 @@ public class GCTinkers {
                     new HeadMaterialStats((int) (GtMat.toolDurability * 0.8), GtMat.toolSpeed, GtMat.toolAttackDamage, GtMat.harvestLevel),
                     new HandleMaterialStats((GtMat.harvestLevel - 0.5f) / 2, GtMat.toolDurability / 3),
                     new ExtraMaterialStats(GtMat.toolDurability / 4));
+            if (Loader.isModLoaded("conarm")) {
+                TinkerRegistry.addMaterialStats(mat,
+                        new CoreMaterialStats(GtMat.toolDurability / 100f, GtMat.toolSpeed * 1.2f),
+                        new PlatesMaterialStats(MathHelper.clamp(GtMat.toolDurability / 2400f, 0.1f, Float.MAX_VALUE), GtMat.toolSpeed * 0.67f, (float) Math.floor(GtMat.toolDurability / 1200f)),
+                        new TrimMaterialStats(GtMat.toolDurability / 120f));
+            }
             TinkerRegistry.integrate(mat, mat.getFluid(), GCUtils.upperCase(GtMat)).toolforge();
-
         }
 
         for (int i = 0; i < gemMaterials.size(); i++) {
@@ -149,6 +158,12 @@ public class GCTinkers {
                     new HeadMaterialStats(GtMat.toolDurability, GtMat.toolSpeed, GtMat.toolAttackDamage, GtMat.harvestLevel),
                     new HandleMaterialStats(GtMat.harvestLevel - 0.5f, GtMat.toolDurability / 4),
                     new ExtraMaterialStats(GtMat.toolDurability / 100));
+            if (Loader.isModLoaded("conarm")) {
+                TinkerRegistry.addMaterialStats(mat,
+                        new CoreMaterialStats(GtMat.toolDurability / 120f, GtMat.toolSpeed * 1.2f),
+                        new PlatesMaterialStats(MathHelper.clamp(GtMat.toolDurability / 2800f, 0.1f, Float.MAX_VALUE), GtMat.toolSpeed * 0.67f, (float) Math.floor(GtMat.toolDurability / 1600f)),
+                        new TrimMaterialStats(GtMat.toolDurability / 140f));
+            }
             TinkerRegistry.integrate(mat, GCUtils.upperCase(GtMat));
         }
 

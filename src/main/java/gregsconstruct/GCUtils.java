@@ -4,15 +4,20 @@ import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.material.type.Material;
 import gregtech.api.unification.ore.OrePrefix;
 import gregtech.api.unification.stack.MaterialStack;
+import net.minecraft.init.Items;
+import net.minecraft.init.PotionTypes;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.PotionType;
+import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.Tuple;
 import net.minecraftforge.fluids.FluidStack;
 import slimeknights.tconstruct.shared.TinkerFluids;
 import slimeknights.tconstruct.shared.block.BlockClearStainedGlass;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.annotation.Nullable;
+import java.util.*;
 
 public class GCUtils {
     public static final FluidStack[] sawLubricants = {
@@ -72,5 +77,17 @@ public class GCUtils {
             color.append("LightGray");
         }
         return color.toString();
+    }
+
+    public static ItemStack getNightVisionPotion() {
+        ItemStack potion = new ItemStack(Items.POTIONITEM);
+        PotionUtils.addPotionToItemStack(potion, PotionTypes.NIGHT_VISION);
+        return potion;
+    }
+
+    public static ItemStack getInvisibilityPotion() {
+        ItemStack potion = new ItemStack(Items.POTIONITEM);
+        PotionUtils.addPotionToItemStack(potion, PotionTypes.INVISIBILITY);
+        return potion;
     }
 }

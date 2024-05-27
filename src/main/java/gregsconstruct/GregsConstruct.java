@@ -73,6 +73,8 @@ public class GregsConstruct {
             GCRecipes.initTComplementIntegration();
         if (Loader.isModLoaded("tinkers_reforged"))
             GCRecipes.initReforgedIntegration();
+        if (Loader.isModLoaded("conarm"))
+            GCRecipes.initConarmIntegration();
         // Recipe generation is done at init, to ensure that alloy recipes are
         // registered if needed before they are removed from the alloy smelter
         GCTinkers.init();

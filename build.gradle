@@ -69,6 +69,7 @@ dependencies {
     deobfCompile "slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}"
     deobfCompile "curse.maven:ceramics-250617:3158763"
     deobfCompile "curse.maven:tcomplement-272671:2843439"
+    deobfCompile "curse.maven:conarm-287683:3174535"
     compile files("libs/GregicAdditionsUnofficial-${minecraft_version}-${gtadditions_version}.jar")
 }
 

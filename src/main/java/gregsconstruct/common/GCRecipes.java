@@ -1,5 +1,6 @@
 package gregsconstruct.common;
 
+import c4.conarm.common.ConstructsRegistry;
 import gregicadditions.GAConfig;
 import gregicadditions.GAMaterials;
 import gregsconstruct.GCConfig;
@@ -31,6 +32,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import scala.collection.immutable.Stream;
 import slimeknights.tconstruct.gadgets.TinkerGadgets;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerFluids;
@@ -397,6 +399,58 @@ public class GCRecipes {
         RecipeMaps.MIXER_RECIPES.recipeBuilder().EUt(16).duration(100).inputs(TinkerCommons.matSlimeBallPurple).fluidInputs(Materials.Glass.getFluid(2000), Materials.Cobalt.getFluid(576)).fluidOutputs(GCMaterials.Lavium.getFluid(288)).buildAndRegister();
         RecipeMaps.MIXER_RECIPES.recipeBuilder().EUt(16).duration(100).inputs(TinkerCommons.matSlimeBallPurple).fluidInputs(Materials.Glass.getFluid(2000), GCMaterials.Ardite.getFluid(576)).fluidOutputs(GCMaterials.Qivium.getFluid(288)).buildAndRegister();
         RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(20).fluidInputs(GCMaterials.Kovar.getFluid(288)).input(Blocks.GLASS).outputs(GameRegistry.makeItemStack("tinkers_reforged:kovar_glass", 0, 1, null)).buildAndRegister();
+    }
+
+    public static void initConarmIntegration() {
+        ModHandler.removeRecipes(ConstructsRegistry.invisibleInk);
+        for (MaterialStack lapis : GCUtils.lapisLike)
+            RecipeMaps.MIXER_RECIPES.recipeBuilder().EUt(8).duration(156).input(Items.GLASS_BOTTLE).input(OrePrefix.gem, lapis.material).input(OrePrefix.gem, Materials.EnderPearl).fluidInputs(Materials.Glass.getFluid(1000)).output(ConstructsRegistry.invisibleInk).buildAndRegister();
+        ModHandler.removeRecipes(ConstructsRegistry.resistMat);
+        RecipeMaps.ALLOY_SMELTER_RECIPES.recipeBuilder().EUt(64).duration(420).input(OrePrefix.block, Materials.WroughtIron, 8).inputs(TinkerCommons.matReinforcement).output(ConstructsRegistry.resistMat).buildAndRegister();
+        ModHandler.removeRecipes(ConstructsRegistry.fireResistMat);
+        RecipeMaps.CHEMICAL_BATH_RECIPES.recipeBuilder().EUt(64).duration(560).fluidInputs(Materials.Blaze.getFluid(1152)).input(ConstructsRegistry.resistMat).output(ConstructsRegistry.fireResistMat).buildAndRegister();
+        ModHandler.removeRecipes(ConstructsRegistry.projResistMat);
+        RecipeMaps.ALLOY_SMELTER_RECIPES.recipeBuilder().EUt(64).duration(128).input(Items.ARROW, 32).input(ConstructsRegistry.resistMat).output(ConstructsRegistry.projResistMat).buildAndRegister();
+        RecipeMaps.ALLOY_SMELTER_RECIPES.recipeBuilder().EUt(64).duration(128).input(Items.TIPPED_ARROW, 32).input(ConstructsRegistry.resistMat).output(ConstructsRegistry.projResistMat).buildAndRegister();
+        RecipeMaps.ALLOY_SMELTER_RECIPES.recipeBuilder().EUt(64).duration(128).input(Items.SPECTRAL_ARROW, 32).input(ConstructsRegistry.resistMat).output(ConstructsRegistry.projResistMat).buildAndRegister();
+        ModHandler.removeRecipes(ConstructsRegistry.blastResistMat);
+        RecipeMaps.IMPLOSION_RECIPES.recipeBuilder().EUt(64).duration(200).input(ConstructsRegistry.resistMat).input(OrePrefix.block, Materials.Brick, 8).explosivesAmount(64).explosivesType(MetaItems.DYNAMITE.getStackForm()).output(ConstructsRegistry.blastResistMat).buildAndRegister();
+
+        ModHandler.removeRecipes(ConstructsRegistry.gauntletMat);
+        RecipeMaps.FORMING_PRESS_RECIPES.recipeBuilder().EUt(16).duration(280).input(OrePrefix.plate, Materials.Iron, 5).input("leather", 1).output(ConstructsRegistry.gauntletMat).buildAndRegister();
+        ModHandler.removeRecipes(ConstructsRegistry.gauntletSpeed);
+        RecipeMaps.CHEMICAL_BATH_RECIPES.recipeBuilder().EUt(32).duration(900).fluidInputs(Materials.Redstone.getFluid(10368)).input(ConstructsRegistry.gauntletMat).output(ConstructsRegistry.gauntletSpeed).buildAndRegister();
+        ModHandler.removeRecipes(ConstructsRegistry.gauntletAttack);
+        RecipeMaps.CHEMICAL_BATH_RECIPES.recipeBuilder().EUt(32).duration(900).fluidInputs(Materials.Glowstone.getFluid(10368)).input(ConstructsRegistry.gauntletMat).output(ConstructsRegistry.gauntletAttack).buildAndRegister();
+        ModHandler.removeRecipes(ConstructsRegistry.gauntletReach);
+        RecipeMaps.ASSEMBLER_RECIPES.recipeBuilder().EUt(512).duration(80).input(ConstructsRegistry.gauntletMat).input(OrePrefix.gem, Materials.EnderEye, 4).inputs(MetaItems.SENSOR_HV.getStackForm()).output(ConstructsRegistry.gauntletReach).buildAndRegister();
+
+        ModHandler.removeRecipes(ConstructsRegistry.frostySoles);
+        ModHandler.addShapedRecipe("conarm_frosty_soles", new ItemStack(ConstructsRegistry.frostySoles), "IsI", "LfL", 'I', Blocks.PACKED_ICE, 'L', "lilypad");
+
+        ModHandler.removeRecipes(ConstructsRegistry.travelBelt);
+        RecipeMaps.FORMING_PRESS_RECIPES.recipeBuilder().EUt(24).duration(172).input("chestWood", 2).input(ConstructsRegistry.travelBeltBase).output(ConstructsRegistry.travelBelt).buildAndRegister();
+        ModHandler.removeRecipes(ConstructsRegistry.travelPotion);
+        RecipeMaps.FORMING_PRESS_RECIPES.recipeBuilder().EUt(24).duration(86).input(Items.BREWING_STAND).input(ConstructsRegistry.travelBeltBase).output(ConstructsRegistry.travelPotion).buildAndRegister();
+
+        ModHandler.removeRecipes(ConstructsRegistry.travelSack);
+        ModHandler.addShapedRecipe("conarm_travel_sack", new ItemStack(ConstructsRegistry.travelSack), "SLS", "CsC", "LLL", 'S', "string", 'L', "leather", 'C', "chestWood");
+
+        ModHandler.removeRecipes(ConstructsRegistry.travelGogglesBase);
+        ModHandler.addShapedRecipe("conarm_travel_goggles_base", new ItemStack(ConstructsRegistry.travelGogglesBase), "LSL", "BLB", "GdG", 'L', "leather", 'S', "string", 'B', new UnificationEntry(OrePrefix.lens, Materials.Glass), 'G', new UnificationEntry(OrePrefix.screw, Materials.Gold));
+        ModHandler.removeRecipes(ConstructsRegistry.travelGoggles);
+        ModHandler.addShapedRecipe("conarm_travel_goggles", new ItemStack(ConstructsRegistry.travelGoggles), "DBD", "GdG", 'D', new UnificationEntry(OrePrefix.lens, Materials.Diamond), 'G', new UnificationEntry(OrePrefix.screw, Materials.Gold), 'B', ConstructsRegistry.travelGogglesBase);
+        ModHandler.removeRecipes(ConstructsRegistry.travelNight);
+        RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().EUt(64).duration(80).inputs(GCUtils.getNightVisionPotion()).input(ConstructsRegistry.travelGogglesBase).fluidInputs(Materials.Gold.getFluid(144)).fluidInputs(Materials.Blaze.getFluid(144)).output(ConstructsRegistry.travelNight).buildAndRegister();
+        ModHandler.removeRecipes(ConstructsRegistry.travelSoul);
+        RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().EUt(64).duration(320).input(ConstructsRegistry.travelGogglesBase).input(Blocks.SOUL_SAND, 4).fluidInputs(Materials.Glowstone.getFluid(2304), Materials.Blaze.getFluid(576)).output(ConstructsRegistry.travelSoul).buildAndRegister();
+
+        ModHandler.removeRecipes(ConstructsRegistry.travelCloak);
+        ModHandler.addShapedRecipe("conarm_travel_cloak", new ItemStack(ConstructsRegistry.travelCloak), "LWL", "LWL", "LkL", 'W', "wool", 'L', "leather");
+        ModHandler.removeRecipes(ConstructsRegistry.travelSneak);
+        RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().EUt(1920).duration(1440).inputs(GCUtils.getInvisibilityPotion()).input(ConstructsRegistry.travelCloak).fluidInputs(Materials.Platinum.getFluid(2592)).fluidInputs(Materials.Uranium235.getFluid(288)).fluidInputs(Materials.Osmium.getFluid(144)).output(ConstructsRegistry.travelSneak).buildAndRegister();
+        ModHandler.removeRecipes(ConstructsRegistry.travelSlowFall);
+        RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().EUt(64).duration(132).input(Items.FEATHER, 32).input(ConstructsRegistry.travelCloak).fluidInputs(GCMaterials.Slime.getFluid(1000)).output(ConstructsRegistry.travelSlowFall).buildAndRegister();
     }
 
     public static void glassRecipes() {
