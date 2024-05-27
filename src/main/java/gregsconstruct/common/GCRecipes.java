@@ -90,16 +90,16 @@ public class GCRecipes {
 
     public static void furnaceRecipes() {
         ModHandler.removeFurnaceSmelting(new ItemStack(Blocks.SAND, 1, GTValues.W));
-        GameRegistry.addSmelting(new ItemStack(TinkerCommons.blockClearGlass), new ItemStack(Blocks.GLASS), 0.1f);
+        ModHandler.addSmeltingRecipe(new ItemStack(TinkerCommons.blockClearGlass), new ItemStack(Blocks.GLASS));
         ModHandler.removeFurnaceSmelting(TinkerCommons.graveyardSoil);
         ModHandler.removeFurnaceSmelting(TinkerCommons.slimyMudBlue);
         ModHandler.removeFurnaceSmelting(TinkerCommons.slimyMudGreen);
         ModHandler.removeFurnaceSmelting(TinkerCommons.slimyMudMagma);
         ModHandler.removeFurnaceSmelting(new ItemStack(TinkerSmeltery.searedBlock, 1, BlockSeared.SearedType.BRICK.getMeta()));
-        GameRegistry.addSmelting(new ItemStack(TinkerSmeltery.searedBlock, 1, BlockSeared.SearedType.COBBLE.getMeta()), new ItemStack(TinkerSmeltery.searedBlock, 1, BlockSeared.SearedType.STONE.getMeta()), 0.1f);
+        ModHandler.addSmeltingRecipe(new ItemStack(TinkerSmeltery.searedBlock, 1, BlockSeared.SearedType.COBBLE.getMeta()), new ItemStack(TinkerSmeltery.searedBlock, 1, BlockSeared.SearedType.STONE.getMeta()));
         for (int i = 0; i <= 4; i++)
             ModHandler.removeFurnaceSmelting(new ItemStack(TinkerCommons.blockSlimeCongealed, 1, i));
-        GameRegistry.addSmelting(OreDictUnifier.get(OrePrefix.dust, Materials.Glass, 8), new ItemStack(TinkerCommons.blockClearGlass), 0f);
+        ModHandler.addSmeltingRecipe(OreDictUnifier.get(OrePrefix.dust, Materials.Glass, 8), new ItemStack(TinkerCommons.blockClearGlass));
         if (Loader.isModLoaded("tcomplement"))
             ModHandler.removeFurnaceSmelting(new ItemStack(SteelworksModule.scorchedBlock, 1, BlockSeared.SearedType.BRICK.getMeta()));
     }
