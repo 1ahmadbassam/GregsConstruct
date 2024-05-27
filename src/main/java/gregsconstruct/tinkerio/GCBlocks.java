@@ -11,11 +11,12 @@ import tinker_io.TinkerIO;
 
 public class GCBlocks {
     private static final String porcelainName = "smart_output_porcelain";
-    private static final String scorchedName = "smart_output_scorched";
     public static final BlockSmartOutput smartOutputPorcelain = new BlockSmartOutput(porcelainName, TinkerIO.MOD_ID + ":" + porcelainName);
+    private static final String scorchedName = "smart_output_scorched";
     public static final BlockSmartOutput smartOutputScorched = new BlockSmartOutput(scorchedName, TinkerIO.MOD_ID + ":" + scorchedName);
 
-    private GCBlocks() {}
+    private GCBlocks() {
+    }
 
     public static void register(IForgeRegistry<Block> registry) {
         if (Loader.isModLoaded("tcomplement")) {

@@ -22,15 +22,15 @@ public class BlockBase extends Block {
         this.setCreativeTab(TinkerIO.creativeTabs);
     }
 
+    public static EnumFacing getFacingFromEntity(BlockPos clickedBlock, EntityLivingBase entity) {
+        return EnumFacing.getFacingFromVector((float) (entity.posX - (double) clickedBlock.getX()), (float) (entity.posY - (double) clickedBlock.getY()), (float) (entity.posZ - (double) clickedBlock.getZ()));
+    }
+
     public void registerItemModel(Item itemBlock) {
         TinkerIO.proxy.registerItemRenderer(itemBlock, 0, this.name);
     }
 
     public Item createItemBlock() {
         return (new ItemBlock(this)).setRegistryName(Objects.requireNonNull(this.getRegistryName()));
-    }
-
-    public static EnumFacing getFacingFromEntity(BlockPos clickedBlock, EntityLivingBase entity) {
-        return EnumFacing.getFacingFromVector((float)(entity.posX - (double)clickedBlock.getX()), (float)(entity.posY - (double)clickedBlock.getY()), (float)(entity.posZ - (double)clickedBlock.getZ()));
     }
 }

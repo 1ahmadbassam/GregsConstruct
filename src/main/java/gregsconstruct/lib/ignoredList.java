@@ -87,31 +87,47 @@ public class ignoredList<T> implements List<T> {
     }
 
     @Override
-    public void clear() {}
+    public void clear() {
+    }
 
     @Override
-    public boolean equals(Object o) { return o instanceof ignoredList;}
+    public boolean equals(Object o) {
+        return o instanceof ignoredList;
+    }
 
     @Override
-    public int hashCode() { return 671;}
+    public int hashCode() {
+        return 671;
+    }
 
     @Override
-    public T get(int index) {return null;}
+    public T get(int index) {
+        return null;
+    }
 
     @Override
-    public T set(int index, T element) {return null;}
+    public T set(int index, T element) {
+        return null;
+    }
 
     @Override
-    public void add(int index, T element) {}
+    public void add(int index, T element) {
+    }
 
     @Override
-    public T remove(int index) {return null;}
+    public T remove(int index) {
+        return null;
+    }
 
     @Override
-    public int indexOf(Object o) {return 0;}
+    public int indexOf(Object o) {
+        return 0;
+    }
 
     @Override
-    public int lastIndexOf(Object o) {return 0;}
+    public int lastIndexOf(Object o) {
+        return 0;
+    }
 
     @Override
     @Nonnull
@@ -158,17 +174,22 @@ public class ignoredList<T> implements List<T> {
             }
 
             @Override
-            public void remove() {}
+            public void remove() {
+            }
 
             @Override
-            public void set(T t) {}
+            public void set(T t) {
+            }
 
             @Override
-            public void add(T t) {}
+            public void add(T t) {
+            }
         };
     }
 
     @Override
     @Nonnull
-    public List<T> subList(int fromIndex, int toIndex) {return this;}
+    public List<T> subList(int fromIndex, int toIndex) {
+        return this;
+    }
 }

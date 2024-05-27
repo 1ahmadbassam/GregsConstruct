@@ -49,7 +49,7 @@ public class BlockSmartOutput extends BlockTileEntity<TileEntitySmartOutput> imp
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
         TileEntity te = world.getTileEntity(data.getPos());
         if (te instanceof TileEntitySmartOutput) {
-            TileEntitySmartOutput tile = (TileEntitySmartOutput)te;
+            TileEntitySmartOutput tile = (TileEntitySmartOutput) te;
             ItemStack itemStack = tile.getTargetItemStack();
             if (itemStack != null && !itemStack.isEmpty()) {
                 probeInfo.horizontal().item(itemStack).text(itemStack.getDisplayName());

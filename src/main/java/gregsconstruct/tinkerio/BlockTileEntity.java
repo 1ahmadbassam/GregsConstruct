@@ -36,7 +36,7 @@ public abstract class BlockTileEntity<TE extends TileEntity> extends BlockBase {
         TileEntity tile = this.getTileEntity(world, pos);
         IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
         if (itemHandler != null && itemHandler.getSlots() > 0) {
-            for(int i = 0; i < itemHandler.getSlots(); ++i) {
+            for (int i = 0; i < itemHandler.getSlots(); ++i) {
                 ItemStack stack = itemHandler.getStackInSlot(i);
                 if (!stack.isEmpty()) {
                     EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);

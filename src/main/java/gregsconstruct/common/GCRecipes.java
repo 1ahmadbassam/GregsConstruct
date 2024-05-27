@@ -15,6 +15,8 @@ import gregtech.api.recipes.ingredients.IntCircuitIngredient;
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.material.MarkerMaterials;
 import gregtech.api.unification.material.Materials;
+import gregtech.api.unification.material.type.IngotMaterial;
+import gregtech.api.unification.material.type.Material;
 import gregtech.api.unification.ore.OrePrefix;
 import gregtech.api.unification.stack.MaterialStack;
 import gregtech.api.unification.stack.UnificationEntry;
@@ -28,7 +30,6 @@ import knightminer.tcomplement.shared.CommonsModule;
 import knightminer.tcomplement.steelworks.SteelworksModule;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -587,7 +588,22 @@ public class GCRecipes {
             RecipeMaps.ALLOY_SMELTER_RECIPES.recipeBuilder().EUt(64).duration(800).input("glowstone", 8).input(OrePrefix.gem, Materials.NetherStar).output(BlockRegistry.whatABeautifulBlock).buildAndRegister();
 
             ModHandler.removeRecipes(new ItemStack(BlockRegistry.stirlingEngine));
-            ModHandler.addShapedRecipe("tinker_io_stirling_engine", new ItemStack(BlockRegistry.stirlingEngine), "CGC", "STS", "AhA", 'C', new UnificationEntry(OrePrefix.circuit, MarkerMaterials.Tier.Good),'G', new UnificationEntry(OrePrefix.gear, Materials.Gold), 'S', new UnificationEntry(OrePrefix.plate, Materials.Steel), 'A', new UnificationEntry(OrePrefix.block, Materials.Aluminium), 'T', TinkerSmeltery.searedTank);
+            ModHandler.addShapedRecipe("tinker_io_stirling_engine", new ItemStack(BlockRegistry.stirlingEngine), "CGC", "STS", "AhA", 'C', new UnificationEntry(OrePrefix.circuit, MarkerMaterials.Tier.Good), 'G', new UnificationEntry(OrePrefix.gear, Materials.Gold), 'S', new UnificationEntry(OrePrefix.plate, Materials.Steel), 'A', new UnificationEntry(OrePrefix.block, Materials.Aluminium), 'T', TinkerSmeltery.searedTank);
+        }
+    }
+
+    public static class VialsIntegration {
+        public static void postInit() {
+            for (Material m : Material.MATERIAL_REGISTRY) {
+                if (!OreDictUnifier.get(OrePrefix.nugget, m).isEmpty())
+                    RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(150).fluidInputs(Materials.Glass.getFluid(1500)).input(OrePrefix.nugget, m).output(li.cil.vials.common.init.Items.vial_16).buildAndRegister();
+                if (!OreDictUnifier.get(OrePrefix.ingot, m).isEmpty())
+                    RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(400).fluidInputs(Materials.Glass.getFluid(4000)).input(OrePrefix.ingot, m).output(li.cil.vials.common.init.Items.vial_144).buildAndRegister();
+            }
+            RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(600).input(li.cil.vials.common.init.Items.vial_144).fluidInputs(Materials.Glass.getFluid(6000)).output(li.cil.vials.common.init.Items.vial_288).buildAndRegister();
+            RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(600).input(li.cil.vials.common.init.Items.vial_288).fluidInputs(Materials.Glass.getFluid(6000)).output(li.cil.vials.common.init.Items.vial_432).buildAndRegister();
+            RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(600).input(li.cil.vials.common.init.Items.vial_432).fluidInputs(Materials.Glass.getFluid(6000)).output(li.cil.vials.common.init.Items.vial_576).buildAndRegister();
+            RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(800).input(li.cil.vials.common.init.Items.vial_576).fluidInputs(Materials.Glass.getFluid(8000)).output(li.cil.vials.common.init.Items.vial_1296).buildAndRegister();
         }
     }
 }

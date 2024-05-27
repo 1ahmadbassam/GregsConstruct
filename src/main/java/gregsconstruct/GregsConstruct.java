@@ -93,6 +93,8 @@ public class GregsConstruct {
         GCTinkers.postInit();
         if (Loader.isModLoaded("tcomplement"))
             GCTinkers.postInitTComplement();
+        if (Loader.isModLoaded("vials"))
+            GCRecipes.VialsIntegration.postInit();
     }
 
     @Mod.EventBusSubscriber
@@ -211,12 +213,12 @@ public class GregsConstruct {
 
         @SubscribeEvent
         public void registerBlocks(RegistryEvent.Register<Block> event) {
-                GCBlocks.register(event.getRegistry());
+            GCBlocks.register(event.getRegistry());
         }
 
         @SubscribeEvent
         public void registerModels(ModelRegistryEvent event) {
-                GCBlocks.registerModels();
+            GCBlocks.registerModels();
         }
     }
 }

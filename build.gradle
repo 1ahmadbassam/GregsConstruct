@@ -75,6 +75,7 @@ dependencies {
     deobfCompile "curse.maven:tcomplement-272671:2843439"
     deobfCompile "curse.maven:conarm-287683:3174535"
     deobfCompile "curse.maven:tinker_io-229503:3102626"
+    deobfCompile "curse.maven:vials-269083:2537151"
     deobfCompile "mcjty.theoneprobe:TheOneProbe-${short_version}:${short_version}-${top_version}"
     compile files("libs/GregicAdditionsUnofficial-${minecraft_version}-${gtadditions_version}.jar")
 }
