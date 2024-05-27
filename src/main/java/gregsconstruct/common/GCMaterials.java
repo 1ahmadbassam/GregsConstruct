@@ -73,6 +73,7 @@ public class GCMaterials implements IMaterialHandler {
         Materials.Emerald.addFlag(DustMaterial.MatFlags.SMELT_INTO_FLUID);
         Materials.Obsidian.addFlag(DustMaterial.MatFlags.SMELT_INTO_FLUID);
         Materials.Clay.addFlag(DustMaterial.MatFlags.SMELT_INTO_FLUID);
+        Materials.Flint.addFlag(SolidMaterial.MatFlags.MORTAR_GRINDABLE);
         Materials.Stone.addFlag(SolidMaterial.MatFlags.GENERATE_ROD);
         Materials.Iron.addFlag(IngotMaterial.MatFlags.GENERATE_ROTOR);
 

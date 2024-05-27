@@ -109,6 +109,8 @@ public class GCRecipes {
         RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().duration(20).EUt(8).fluidInputs(GCMaterials.Dirt.getFluid(144)).notConsumable(MetaItems.SHAPE_MOLD_INGOT).outputs(TinkerCommons.mudBrick).buildAndRegister();
         RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().duration(80).EUt(8).fluidInputs(GCMaterials.Dirt.getFluid(144)).notConsumable(MetaItems.SHAPE_MOLD_BLOCK).output(Blocks.DIRT).buildAndRegister();
 
+        ModHandler.addShapelessRecipe("flint_dust_flint", OreDictUnifier.get(OrePrefix.dust, Materials.Flint), 'm', new UnificationEntry(OrePrefix.gem, Materials.Flint));
+
         ModHandler.removeRecipes(TinkerGadgets.fancyFrame);
         RecipeMaps.FORMING_PRESS_RECIPES.recipeBuilder().EUt(28).duration(234).input(OrePrefix.nugget, Materials.Bronze, 4).input("obsidian", 1).outputs(new ItemStack(TinkerGadgets.fancyFrame)).buildAndRegister();
         RecipeMaps.FORMING_PRESS_RECIPES.recipeBuilder().EUt(28).duration(234).input(OrePrefix.nugget, GCMaterials.AluminiumBrass, 4).input("obsidian", 1).outputs(new ItemStack(TinkerGadgets.fancyFrame, 1, 1)).buildAndRegister();
