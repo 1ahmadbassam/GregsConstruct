@@ -5,11 +5,15 @@ import gregicadditions.GAConfig;
 import gregicadditions.GAMaterials;
 import gregsconstruct.GCConfig;
 import gregsconstruct.GCUtils;
+import gregsconstruct.jei.JEIGCPlugin;
+import gregsconstruct.lib.ignoredList;
+import gregsconstruct.tinkerio.GCBlocks;
 import gregtech.api.GTValues;
 import gregtech.api.recipes.ModHandler;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.recipes.ingredients.IntCircuitIngredient;
 import gregtech.api.unification.OreDictUnifier;
+import gregtech.api.unification.material.MarkerMaterials;
 import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.ore.OrePrefix;
 import gregtech.api.unification.stack.MaterialStack;
@@ -24,6 +28,7 @@ import knightminer.tcomplement.shared.CommonsModule;
 import knightminer.tcomplement.steelworks.SteelworksModule;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -37,10 +42,14 @@ import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerFluids;
 import slimeknights.tconstruct.shared.block.BlockSlime;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
+import slimeknights.tconstruct.smeltery.block.BlockCasting;
 import slimeknights.tconstruct.smeltery.block.BlockSeared;
 import slimeknights.tconstruct.tools.TinkerTools;
 import slimeknights.tconstruct.world.TinkerWorld;
 import slimeknights.tconstruct.world.block.BlockSlimeDirt;
+import tinker_io.registry.BlockRegistry;
+import tinker_io.registry.ItemRegistry;
+import tinker_io.registry.OreCrusherRecipeRegister;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -364,8 +373,7 @@ public class GCRecipes {
     }
 
     public static class TComplementIntegration {
-
-        public static void initTComplementIntegration() {
+        public static void init() {
             ModHandler.removeRecipes(CommonsModule.stoneBucket);
             ModHandler.addShapedRecipe("stone_bucket_mold", CommonsModule.stoneBucket, "PhP", " P ", 'P', new UnificationEntry(OrePrefix.plate, Materials.Stone));
             RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(5).input(OrePrefix.ingot, Materials.Brick).fluidInputs(new FluidStack(TinkerFluids.searedStone, 18)).outputs(new ItemStack(CommonsModule.materials, 1, 1)).buildAndRegister();
@@ -457,7 +465,7 @@ public class GCRecipes {
     }
 
     public static class ReforgedIntegration {
-        public static void initReforgedIntegration() {
+        public static void init() {
             RecipeMaps.MIXER_RECIPES.recipeBuilder().EUt(16).duration(100).inputs(TinkerCommons.matSlimeBallPurple).fluidInputs(Materials.Glass.getFluid(2000), Materials.Cobalt.getFluid(576)).fluidOutputs(GCMaterials.Lavium.getFluid(288)).buildAndRegister();
             RecipeMaps.MIXER_RECIPES.recipeBuilder().EUt(16).duration(100).inputs(TinkerCommons.matSlimeBallPurple).fluidInputs(Materials.Glass.getFluid(2000), GCMaterials.Ardite.getFluid(576)).fluidOutputs(GCMaterials.Qivium.getFluid(288)).buildAndRegister();
             RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(20).fluidInputs(GCMaterials.Kovar.getFluid(288)).input(Blocks.GLASS).outputs(GameRegistry.makeItemStack("tinkers_reforged:kovar_glass", 0, 1, null)).buildAndRegister();
@@ -465,7 +473,7 @@ public class GCRecipes {
     }
 
     public static class ConArmIntegration {
-        public static void initConarmIntegration() {
+        public static void init() {
             ModHandler.removeRecipes(ConstructsRegistry.invisibleInk);
             for (MaterialStack lapis : GCUtils.lapisLike)
                 RecipeMaps.MIXER_RECIPES.recipeBuilder().EUt(8).duration(156).input(Items.GLASS_BOTTLE).input(OrePrefix.gem, lapis.material).input(OrePrefix.gem, Materials.EnderPearl).fluidInputs(Materials.Glass.getFluid(1000)).output(ConstructsRegistry.invisibleInk).buildAndRegister();
@@ -515,6 +523,71 @@ public class GCRecipes {
             RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().EUt(1920).duration(1440).inputs(GCUtils.getInvisibilityPotion()).input(ConstructsRegistry.travelCloak).fluidInputs(Materials.Platinum.getFluid(2592)).fluidInputs(Materials.Uranium235.getFluid(288)).fluidInputs(Materials.Osmium.getFluid(144)).output(ConstructsRegistry.travelSneak).buildAndRegister();
             ModHandler.removeRecipes(ConstructsRegistry.travelSlowFall);
             RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().EUt(64).duration(132).input(Items.FEATHER, 32).input(ConstructsRegistry.travelCloak).fluidInputs(GCMaterials.Slime.getFluid(1000)).output(ConstructsRegistry.travelSlowFall).buildAndRegister();
+        }
+    }
+
+    public static class ioIntegration {
+        public static void init() {
+            // well, who told you to make your recipe lists not final!
+            new OreCrusherRecipeRegister();
+            OreCrusherRecipeRegister.oreCrusherRecipes = new ignoredList<>();
+            OreCrusherRecipeRegister.oreCrusherBanList = new ignoredList<>();
+
+            // Disable useless items
+            ModHandler.removeRecipes(new ItemStack(BlockRegistry.oreCrusher));
+            ModHandler.removeRecipes(new ItemStack(ItemRegistry.cdLonesomeAvenue));
+            ModHandler.removeRecipes(new ItemStack(ItemRegistry.upgrade, 1, 6));
+            JEIGCPlugin.removedItems.add(new ItemStack(BlockRegistry.oreCrusher));
+            JEIGCPlugin.removedItems.add(new ItemStack(ItemRegistry.cdLonesomeAvenue));
+            JEIGCPlugin.removedItems.add(new ItemStack(ItemRegistry.upgrade, 1, 6));
+            JEIGCPlugin.removedItems.add(new ItemStack(ItemRegistry.crushedOre));
+
+            ModHandler.removeRecipes(new ItemStack(ItemRegistry.upgrade));
+            for (MaterialStack lapis : GCUtils.lapisLike)
+                ModHandler.addShapedRecipe("tinker_io_upg_base_" + lapis.material, new ItemStack(ItemRegistry.upgrade), "LPL", "PwP", "LPL", 'L', new UnificationEntry(OrePrefix.gem, lapis.material), 'P', new UnificationEntry(OrePrefix.plate, Materials.Lead));
+            ModHandler.removeRecipes(new ItemStack(ItemRegistry.upgrade, 1, 1));
+            ModHandler.addShapedRecipe("tinker_io_upg_slot1", new ItemStack(ItemRegistry.upgrade, 1, 1), "PCP", "CTC", "PCP", 'C', "chestWood", 'P', new UnificationEntry(OrePrefix.plate, Materials.Bronze), 'T', new ItemStack(ItemRegistry.upgrade));
+            ModHandler.removeRecipes(new ItemStack(ItemRegistry.upgrade, 1, 2));
+            ModHandler.addShapedRecipe("tinker_io_upg_slot2", new ItemStack(ItemRegistry.upgrade, 1, 2), "PCP", "CTC", "PCP", 'C', "chestWood", 'P', new UnificationEntry(OrePrefix.plate, Materials.Steel), 'T', new ItemStack(ItemRegistry.upgrade, 1, 1));
+            ModHandler.removeRecipes(new ItemStack(ItemRegistry.upgrade, 1, 3));
+            ModHandler.addShapedRecipe("tinker_io_upg_slot3", new ItemStack(ItemRegistry.upgrade, 1, 3), "PCP", "CTC", "PCP", 'C', "chestWood", 'P', new UnificationEntry(OrePrefix.plate, Materials.Electrum), 'T', new ItemStack(ItemRegistry.upgrade, 1, 2));
+            ModHandler.removeRecipes(new ItemStack(ItemRegistry.upgrade, 1, 4));
+            ModHandler.addShapedRecipe("tinker_io_upg_slot4", new ItemStack(ItemRegistry.upgrade, 1, 4), "PCP", "CTC", "PCP", 'C', "chestWood", 'P', new UnificationEntry(OrePrefix.plate, Materials.Aluminium), 'T', new ItemStack(ItemRegistry.upgrade, 1, 3));
+
+            ModHandler.removeRecipes(new ItemStack(ItemRegistry.upgrade, 1, 5));
+            ModHandler.addShapedRecipe("tinker_io_upg_redstone", new ItemStack(ItemRegistry.upgrade, 1, 5), "RBR", "CTC", "RwR", 'C', Items.COMPARATOR, 'R', new UnificationEntry(OrePrefix.block, Materials.Redstone), 'T', new ItemStack(ItemRegistry.upgrade), 'B', new UnificationEntry(OrePrefix.circuit, MarkerMaterials.Tier.Basic));
+
+            ModHandler.removeRecipes(new ItemStack(ItemRegistry.upgrade, 1, 7));
+            ModHandler.addShapedRecipe("tinker_io_upg_basin", new ItemStack(ItemRegistry.upgrade, 1, 7), "PPP", "OTO", "WBW", 'W', new UnificationEntry(OrePrefix.block, Materials.WroughtIron), 'P', new UnificationEntry(OrePrefix.plate, Materials.Steel), 'T', new ItemStack(ItemRegistry.upgrade, 1), 'O', "obsidian", 'B', new ItemStack(TinkerSmeltery.castingBlock, 1, BlockCasting.CastingType.BASIN.getMeta()));
+            if (Loader.isModLoaded("tcomplement")) {
+                if (Loader.isModLoaded("ceramics"))
+                    ModHandler.addShapedRecipe("tinker_io_upg_basin_porcelain", new ItemStack(ItemRegistry.upgrade, 1, 7), "PPP", "OTO", "WBW", 'W', new UnificationEntry(OrePrefix.block, Materials.WroughtIron), 'P', new UnificationEntry(OrePrefix.plate, Materials.Steel), 'T', new ItemStack(ItemRegistry.upgrade, 1), 'O', "obsidian", 'B', new ItemStack(CeramicsPlugin.porcelainCasting, 1, BlockCasting.CastingType.BASIN.getMeta()));
+                ModHandler.addShapedRecipe("tinker_io_upg_basin_scorched", new ItemStack(ItemRegistry.upgrade, 1, 7), "PPP", "OTO", "WBW", 'W', new UnificationEntry(OrePrefix.block, Materials.WroughtIron), 'P', new UnificationEntry(OrePrefix.plate, Materials.Steel), 'T', new ItemStack(ItemRegistry.upgrade, 1), 'O', "obsidian", 'B', new ItemStack(SteelworksModule.scorchedCasting, 1, BlockCasting.CastingType.BASIN.getMeta()));
+            }
+
+            ModHandler.removeRecipes(ItemRegistry.solidFuel);
+            RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().EUt(24).duration(80).input(OrePrefix.gem, Materials.Charcoal).fluidInputs(Materials.SeedOil.getFluid(125), Materials.Magnesium.getFluid(72)).output(ItemRegistry.solidFuel).buildAndRegister();
+            RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().EUt(24).duration(80).input(OrePrefix.gem, Materials.Coke).fluidInputs(Materials.SeedOil.getFluid(125), Materials.Magnesium.getFluid(72)).output(ItemRegistry.solidFuel).buildAndRegister();
+            RecipeMaps.CHEMICAL_RECIPES.recipeBuilder().EUt(24).duration(80).input(OrePrefix.gem, Materials.Lignite).fluidInputs(Materials.SeedOil.getFluid(125), Materials.Magnesium.getFluid(72)).output(ItemRegistry.solidFuel).buildAndRegister();
+            ModHandler.removeRecipes(new ItemStack(ItemRegistry.speedUpgrade, 1, 4));
+            ModHandler.addShapedRecipe("tinker_io_upg_speed", new ItemStack(ItemRegistry.speedUpgrade), "PCP", "CTC", "PCP", 'C', new UnificationEntry(OrePrefix.plate, Materials.Gold), 'P', new UnificationEntry(OrePrefix.plate, Materials.Tin), 'T', new ItemStack(ItemRegistry.upgrade));
+
+            ModHandler.removeRecipes(new ItemStack(BlockRegistry.fuelInputMachine));
+            ModHandler.addShapedRecipe("tinker_io_fuel_machine", new ItemStack(BlockRegistry.fuelInputMachine), "CPC", "PTP", "CPC", 'C', new UnificationEntry(OrePrefix.block, Materials.Charcoal), 'P', new UnificationEntry(OrePrefix.plate, Materials.Steel), 'T', new ItemStack(TinkerSmeltery.smelteryController));
+            ModHandler.removeRecipes(new ItemStack(BlockRegistry.smartOutput));
+
+            ModHandler.addShapedRecipe("tinker_io_smart_output", new ItemStack(BlockRegistry.smartOutput), "BBB", "ITI", "WWW", 'B', new ItemStack(TinkerSmeltery.searedBlock, 1, BlockSeared.SearedType.BRICK.getMeta()), 'I', Blocks.ICE, 'T', new ItemStack(TinkerSmeltery.castingBlock, 1, BlockCasting.CastingType.TABLE.getMeta()), 'W', new UnificationEntry(OrePrefix.block, Materials.WroughtIron));
+            if (Loader.isModLoaded("tcomplement")) {
+                if (Loader.isModLoaded("ceramics"))
+                    ModHandler.addShapedRecipe("tinker_io_smart_output_porcelain", new ItemStack(GCBlocks.smartOutputPorcelain), "BBB", "ITI", "WWW", 'B', new ItemStack(Ceramics.clayHard), 'I', Blocks.ICE, 'T', new ItemStack(CeramicsPlugin.porcelainCasting, 1, BlockCasting.CastingType.TABLE.getMeta()), 'W', new UnificationEntry(OrePrefix.block, Materials.WroughtIron));
+                ModHandler.addShapedRecipe("tinker_io_smart_output_scorched", new ItemStack(GCBlocks.smartOutputScorched), "BBB", "ITI", "WWW", 'B', new ItemStack(SteelworksModule.scorchedBlock, 1, BlockSeared.SearedType.BRICK.getMeta()), 'I', Blocks.ICE, 'T', new ItemStack(SteelworksModule.scorchedCasting, 1, BlockCasting.CastingType.TABLE.getMeta()), 'W', new UnificationEntry(OrePrefix.block, Materials.WroughtIron));
+            }
+
+            ModHandler.removeRecipes(new ItemStack(BlockRegistry.whatABeautifulBlock));
+            RecipeMaps.ALLOY_SMELTER_RECIPES.recipeBuilder().EUt(64).duration(800).input("glowstone", 8).input(OrePrefix.gem, Materials.NetherStar).output(BlockRegistry.whatABeautifulBlock).buildAndRegister();
+
+            ModHandler.removeRecipes(new ItemStack(BlockRegistry.stirlingEngine));
+            ModHandler.addShapedRecipe("tinker_io_stirling_engine", new ItemStack(BlockRegistry.stirlingEngine), "CGC", "STS", "AhA", 'C', new UnificationEntry(OrePrefix.circuit, MarkerMaterials.Tier.Good),'G', new UnificationEntry(OrePrefix.gear, Materials.Gold), 'S', new UnificationEntry(OrePrefix.plate, Materials.Steel), 'A', new UnificationEntry(OrePrefix.block, Materials.Aluminium), 'T', TinkerSmeltery.searedTank);
         }
     }
 }

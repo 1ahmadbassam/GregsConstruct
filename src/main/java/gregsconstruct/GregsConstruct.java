@@ -5,17 +5,21 @@ import gregsconstruct.common.GCMetaItems;
 import gregsconstruct.common.GCRecipes;
 import gregsconstruct.tinker.GCMolds;
 import gregsconstruct.tinker.GCTinkers;
+import gregsconstruct.tinkerio.GCBlocks;
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.material.type.IngotMaterial;
 import gregtech.api.unification.material.type.Material;
 import gregtech.api.unification.ore.OrePrefix;
 import knightminer.tcomplement.library.events.TCompRegisterEvent;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -39,7 +43,7 @@ import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 @Mod(modid = GregsConstruct.MODID,
         name = GregsConstruct.NAME,
         version = GregsConstruct.VERSION,
-        dependencies = "required-after:gregtech;required-after:tconstruct;after:gtadditions;after:tcomplement")
+        dependencies = "required-after:gregtech;required-after:tconstruct;after:gtadditions;after:tcomplement;after:tinker_io")
 public class GregsConstruct {
     public static final String MODID = "gtconstruct";
     public static final String NAME = "Greg's Construct";
@@ -50,6 +54,8 @@ public class GregsConstruct {
     public GregsConstruct() {
         if (Loader.isModLoaded("tcomplement"))
             MinecraftForge.EVENT_BUS.register(new TinkerComplementEventBus());
+        if (Loader.isModLoaded("tinker_io"))
+            MinecraftForge.EVENT_BUS.register(new TinkerIOEventBus());
     }
 
     @Mod.EventHandler
@@ -70,11 +76,13 @@ public class GregsConstruct {
         GCRecipes.furnaceRecipes();
         GCRecipes.initEnhancedIntegration();
         if (Loader.isModLoaded("tcomplement"))
-            GCRecipes.TComplementIntegration.initTComplementIntegration();
+            GCRecipes.TComplementIntegration.init();
         if (Loader.isModLoaded("tinkers_reforged"))
-            GCRecipes.ReforgedIntegration.initReforgedIntegration();
+            GCRecipes.ReforgedIntegration.init();
         if (Loader.isModLoaded("conarm"))
-            GCRecipes.ConArmIntegration.initConarmIntegration();
+            GCRecipes.ConArmIntegration.init();
+        if (Loader.isModLoaded("tinker_io"))
+            GCRecipes.ioIntegration.init();
         // Recipe generation is done at init, to ensure that alloy recipes are
         // registered if needed before they are removed from the alloy smelter
         GCTinkers.init();
@@ -192,6 +200,23 @@ public class GregsConstruct {
         @SubscribeEvent(priority = EventPriority.HIGH)
         public void highOvenMeltingRemoval(TCompRegisterEvent.HighOvenOverrideRegisterEvent event) {
             events.smeltingRemovalGlobal(event);
+        }
+    }
+
+    public static class TinkerIOEventBus {
+        @SubscribeEvent
+        public void registerItems(RegistryEvent.Register<Item> event) {
+            GCBlocks.registerItemBlocks(event.getRegistry());
+        }
+
+        @SubscribeEvent
+        public void registerBlocks(RegistryEvent.Register<Block> event) {
+                GCBlocks.register(event.getRegistry());
+        }
+
+        @SubscribeEvent
+        public void registerModels(ModelRegistryEvent event) {
+                GCBlocks.registerModels();
         }
     }
 }

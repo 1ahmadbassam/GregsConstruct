@@ -1,0 +1,12 @@
+﻿{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "tinker_io:blocks/smart_output_side_scorched",
+    "down": "tinker_io:blocks/smart_output_side_scorched",
+    "up": "tinker_io:blocks/smart_output_top_scorched",
+    "east": "tinker_io:blocks/smart_output_side_scorched",
+    "west": "tinker_io:blocks/smart_output_side_scorched",
+    "north": "tinker_io:blocks/smart_output_side_scorched",
+    "south": "tinker_io:blocks/smart_output_side_scorched"
+  }
+}

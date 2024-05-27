@@ -45,6 +45,10 @@ repositories {
         url = "https://chickenbones.net/maven/"
     }
     maven {
+        name = "CraftTweaker Maven"
+        url = "https://maven.blamejared.com/"
+    }
+    maven {
         url = "https://mod-buildcraft.com/maven/"
     }
     maven {
@@ -70,6 +74,8 @@ dependencies {
     deobfCompile "curse.maven:ceramics-250617:3158763"
     deobfCompile "curse.maven:tcomplement-272671:2843439"
     deobfCompile "curse.maven:conarm-287683:3174535"
+    deobfCompile "curse.maven:tinker_io-229503:3102626"
+    deobfCompile "mcjty.theoneprobe:TheOneProbe-${short_version}:${short_version}-${top_version}"
     compile files("libs/GregicAdditionsUnofficial-${minecraft_version}-${gtadditions_version}.jar")
 }
 

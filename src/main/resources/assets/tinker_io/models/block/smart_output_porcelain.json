@@ -1,0 +1,12 @@
+﻿{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "tinker_io:blocks/smart_output_side_porcelain",
+    "down": "tinker_io:blocks/smart_output_side_porcelain",
+    "up": "tinker_io:blocks/smart_output_top_porcelain",
+    "east": "tinker_io:blocks/smart_output_side_porcelain",
+    "west": "tinker_io:blocks/smart_output_side_porcelain",
+    "north": "tinker_io:blocks/smart_output_side_porcelain",
+    "south": "tinker_io:blocks/smart_output_side_porcelain"
+  }
+}
