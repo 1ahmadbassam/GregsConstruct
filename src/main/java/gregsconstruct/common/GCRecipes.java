@@ -289,9 +289,9 @@ public class GCRecipes {
         ModHandler.addShapedRecipe("tconstruct_tinker_tank_controller", new ItemStack(TinkerSmeltery.tinkerTankController), "BPB", "PCP", "BRB", 'B', "ingotBrickSeared", 'P', "plateBrickSeared", 'C', Items.BUCKET, 'R', new UnificationEntry(OrePrefix.rotor, Materials.Iron));
 
         ModHandler.removeRecipes(TinkerGadgets.stoneStick);
-        ModHandler.addShapedRecipe("tconstruct_stone_rod", new ItemStack(TinkerGadgets.stoneStick), "f ", " C", 'C', "cobblestone");
-        RecipeMaps.LATHE_RECIPES.recipeBuilder().EUt(16).duration(158).input("cobblestone", 1).output(TinkerGadgets.stoneStick, 2).buildAndRegister();
-        RecipeMaps.EXTRUDER_RECIPES.recipeBuilder().EUt(48).duration(158).input("cobblestone", 1).notConsumable(MetaItems.SHAPE_EXTRUDER_ROD).output(TinkerGadgets.stoneStick, 2).buildAndRegister();
+        ModHandler.addShapedRecipe("tconstruct_stone_rod", OreDictUnifier.get(OrePrefix.stick, Materials.Stone), "f ", " C", 'C', "cobblestone");
+        RecipeMaps.LATHE_RECIPES.recipeBuilder().EUt(16).duration(158).input("cobblestone", 1).output(OrePrefix.stick, Materials.Stone, 2).buildAndRegister();
+        RecipeMaps.EXTRUDER_RECIPES.recipeBuilder().EUt(48).duration(158).input("cobblestone", 1).notConsumable(MetaItems.SHAPE_EXTRUDER_ROD).output(OrePrefix.stick, Materials.Stone, 2).buildAndRegister();
         for (int i = 0; i <= 4; i++) {
             for (FluidStack lube : GCUtils.sawLubricants) {
                 int duration = lube.amount > 1 ? 60 * (int) (lube.amount / 1.25) : 60;
@@ -463,6 +463,10 @@ public class GCRecipes {
             ModHandler.addShapedRecipe("scorched_smeltery_controller", new ItemStack(SteelworksModule.highOvenController), "SPS", "PTP", "dPw", 'S', new UnificationEntry(OrePrefix.screw, Materials.Steel), 'P', new UnificationEntry(OrePrefix.plate, Materials.Steel), 'T', new ItemStack(SteelworksModule.highOvenIO, 1, 2));
 
             RecipeMaps.FORGE_HAMMER_RECIPES.recipeBuilder().EUt(8).duration(200).inputs(new ItemStack(SteelworksModule.scorchedBlock, 1, BlockSeared.SearedType.BRICK.getMeta())).outputs(new ItemStack(SteelworksModule.scorchedBlock, 1, BlockSeared.SearedType.BRICK_CRACKED.getMeta())).buildAndRegister();
+            if (Loader.isModLoaded("chisel")) {
+                ModHandler.removeRecipes(CommonsModule.iModifier);
+                RecipeMaps.ALLOY_SMELTER_RECIPES.recipeBuilder().EUt(32).duration(240).input(OrePrefix.block, Materials.Redstone, 8).input("cast", 1).outputs(CommonsModule.iModifier).buildAndRegister();
+            }
         }
     }
 
