@@ -95,6 +95,7 @@ public class GCRecipes {
         ModHandler.removeFurnaceSmelting(TinkerCommons.slimyMudBlue);
         ModHandler.removeFurnaceSmelting(TinkerCommons.slimyMudGreen);
         ModHandler.removeFurnaceSmelting(TinkerCommons.slimyMudMagma);
+        ModHandler.removeFurnaceSmelting(TinkerCommons.oreArdite);
         ModHandler.removeFurnaceSmelting(new ItemStack(TinkerSmeltery.searedBlock, 1, BlockSeared.SearedType.BRICK.getMeta()));
         ModHandler.addSmeltingRecipe(new ItemStack(TinkerSmeltery.searedBlock, 1, BlockSeared.SearedType.COBBLE.getMeta()), new ItemStack(TinkerSmeltery.searedBlock, 1, BlockSeared.SearedType.STONE.getMeta()));
         for (int i = 0; i <= 4; i++)
