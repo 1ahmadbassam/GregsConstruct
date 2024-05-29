@@ -11,6 +11,7 @@ import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.material.type.IngotMaterial;
 import gregtech.api.unification.material.type.Material;
 import gregtech.api.unification.ore.OrePrefix;
+import gregtech.common.items.MetaItems;
 import knightminer.tcomplement.library.events.TCompRegisterEvent;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -168,6 +169,9 @@ public class GregsConstruct {
             if (event.getRecipe().matches(OreDictUnifier.get(OrePrefix.block, Materials.Emerald)) && TinkerFluids.emerald != null && event.getRecipe().getResult().isFluidStackIdentical(new FluidStack(TinkerFluids.emerald, 5994)))
                 event.setCanceled(true);
             if ((event.getRecipe().matches(new ItemStack(Blocks.STONE)) || event.getRecipe().matches(new ItemStack(Blocks.COBBLESTONE))) && event.getRecipe().getResult().isFluidStackIdentical(new FluidStack(TinkerFluids.searedStone, 72)))
+                event.setCanceled(true);
+            // hammers should not be melt-able
+            if (MetaItems.HARD_HAMMER != null && event.getRecipe().matches(MetaItems.HARD_HAMMER.getStackForm()))
                 event.setCanceled(true);
             for (ItemStack sand : OreDictionary.getOres("sand"))
                 if (event.getRecipe().matches(sand) && event.getRecipe().getResult().getFluid() == TinkerFluids.glass)
