@@ -1,96 +1,97 @@
-buildscript {
-    repositories {
-        maven { url = "https://files.minecraftforge.net/maven" }
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-    }
+plugins {
+    id 'java'
+    id 'java-library'
+    id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.7'
+    id 'com.gtnewhorizons.retrofuturagradle' version '1.3.9'
+    id 'com.matthewprenger.cursegradle' version '1.4.0'
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
 
+version = project.mod_version
+group = project.maven_group
 
-version = "${minecraft_version}-${mod_version}"
-group = "gregsconstruct"
-archivesBaseName = "GregsConstructUnofficial"
-
-sourceCompatibility = targetCompatibility = '1.8'
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+        vendor.set(JvmVendorSpec.AZUL)
+    }
 }
 
 minecraft {
-    version = "${minecraft_version}-14.23.5.2838"
-    runDir = "run"
-    mappings = "stable_39"
-    makeObfSourceJar = true
-    replace("@VERSION@",project.version)
-    replaceIn("GregsConstruct.java")
+    mcVersion = '1.12.2'
+}
+
+configurations {
+    embed
+    implementation.extendsFrom(embed)
 }
 
 repositories {
     maven {
-        name = "Progwml6 maven"
-        url = "https://dvs1.progwml6.com/files/maven/"
-    }
-    maven {
-        name = "CraftTweaker Maven"
-        url = "https://maven.blamejared.com/"
-    }
-    maven {
-        name = "CurseMaven"
-        url = "https://cursemaven.com"
-    }
-    maven {
         name = "ChickenBones maven"
         url = "https://chickenbones.net/maven/"
-    }
-    maven {
-        name = "CraftTweaker Maven"
-        url = "https://maven.blamejared.com/"
-    }
-    maven {
-        url = "https://mod-buildcraft.com/maven/"
     }
     maven {
         name = "tterrag maven"
         url = "https://maven.tterrag.com/"
     }
     maven {
-        url "https://minecraft.curseforge.com/api/maven"
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
+        name = "ModMaven"
+        url = "https://modmaven.k-4u.nl"
+    }
+    maven {
+        name = "CraftTweaker Maven"
+        url = "https://maven.blamejared.com/"
+    }
+    maven {
+        name = "CoFH Maven"
+        url = "https://maven.covers1624.net"
+    }
+    maven {
+        name = "CurseMaven"
+        url = "https://cursemaven.com"
+    }
+    maven {
+        name = "CurseForge"
+        url = "https://minecraft.curseforge.com/api/maven/"
     }
 }
 
 dependencies {
-    deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.+"
-    deobfCompile "mezz.jei:jei_1.12.2:+"
-    deobfCompile "curse.maven:hwyla-253449:2568753"
-    deobfCompile "gregtechce:gregtech:${minecraft_version}:${gt_version}"
-    deobfCompile "codechicken:ChickenASM:1.12-+"
-    deobfCompile "codechicken-lib-1-8:CodeChickenLib-1.12.2:3.2.3.357:universal"
-    deobfCompile "curse.maven:cb-multipart-258426:2755790"
-    deobfCompile "codechicken:ChickenASM:${short_version}-${chickenasm_version}"
-    deobfCompile "slimeknights.mantle:Mantle:${short_version}-${mantle_version}"
-    deobfCompile "slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}"
-    deobfCompile "curse.maven:ceramics-250617:3158763"
-    deobfCompile "curse.maven:tcomplement-272671:2843439"
-    deobfCompile "curse.maven:conarm-287683:3174535"
-    deobfCompile "curse.maven:tinker_io-229503:3102626"
-    deobfCompile "curse.maven:vials-269083:2537151"
-    deobfCompile "mcjty.theoneprobe:TheOneProbe-${short_version}:${short_version}-${top_version}"
-    compile files("libs/GregicAdditionsUnofficial-${minecraft_version}-${gtadditions_version}.jar")
+    compileOnly "codechicken:ChickenASM:${short_version}-${chickenasm_version}"
+    compileOnly "codechicken:CodeChickenLib:${minecraft_version}-${ccl_version}:deobf"
+    compileOnly "codechicken:ForgeMultipart:${minecraft_version}-${multipart_version}:deobf"
+    compileOnly "slimeknights.mantle:Mantle:${short_version}-${mantle_version}"
+    compileOnly "slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}"
+    compileOnly "mezz.jei:jei_${minecraft_version}:${jei_version}"
+    compileOnly "team.chisel.ctm:CTM:MC${minecraft_version}-${ctm_version}"
+    compileOnly "mcjty.theoneprobe:TheOneProbe-${short_version}:${short_version}-${top_version}"
+    compileOnly "curse.maven:ceramics-250617:3158763"
+    compileOnly "curse.maven:tcomplement-272671:2843439"
+    compileOnly "curse.maven:conarm-287683:3174535"
+    compileOnly "curse.maven:tinker_io-229503:3102626"
+    compileOnly "curse.maven:vials-269083:2537151"
+    compileOnly "curse.maven:gregicadditions-unofficial-1022734:5375962"
+    compileOnly rfg.deobf("curse.maven:gregtechce-293327:3478805")
+
+    api "CraftTweaker2:CraftTweaker2-MC${stripped_version}-Main:${crafttweaker_version}"
+    annotationProcessor 'com.google.guava:guava:24.1.1-jre'
+    annotationProcessor 'com.google.code.gson:gson:2.8.6'
+    compileOnlyApi 'org.jetbrains:annotations:24.1.0'
+    annotationProcessor 'org.jetbrains:annotations:24.1.0'
 }
 
 processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
+    inputs.property 'version', project.version
+    inputs.property 'mcversion', project.minecraft.version
 
-    from(sourceSets.main.resources.srcDirs) {
+    filesMatching('mcmod.info') { fcd ->
         include 'mcmod.info'
-                
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        fcd.expand ('version': project.version, 'mcversion': project.minecraft.version)
     }
-        
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
+
+    dependsOn 'compileJava'
 }
