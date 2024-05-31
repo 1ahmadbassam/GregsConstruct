@@ -217,9 +217,9 @@ public class GCRecipes {
         RecipeMaps.AUTOCLAVE_RECIPES.recipeBuilder().EUt(1920).duration(185).inputs(GTUtility.copyAmount(4, TinkerCommons.matSilkyCloth)).fluidInputs(Materials.Emerald.getFluid(144)).outputs(TinkerCommons.matSilkyJewel).buildAndRegister();
 
         RecipeMaps.CHEMICAL_BATH_RECIPES.recipeBuilder().EUt(64).duration(135).input("bone", 1).fluidInputs(Materials.OilHeavy.getFluid(250)).outputs(TinkerCommons.matNecroticBone).buildAndRegister();
+        RecipeMaps.CHEMICAL_BATH_RECIPES.recipeBuilder().EUt(16).duration(8).inputs(new ItemStack(Blocks.SAND)).fluidInputs(GCMaterials.Blood.getFluid(10)).outputs(new ItemStack(Blocks.SAND, 1, 1)).buildAndRegister();
 
         RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(25).fluidInputs(GCMaterials.Blood.getFluid(160)).notConsumable(MetaItems.SHAPE_MOLD_BALL).outputs(TinkerCommons.matSlimeBallBlood).buildAndRegister();
-
         //Seared block types
         RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(10).fluidInputs(new FluidStack(TinkerFluids.searedStone, 72)).notConsumable(MetaItems.SHAPE_MOLD_INGOT).outputs(TinkerCommons.searedBrick).buildAndRegister();
         RecipeMaps.FLUID_SOLIDFICATION_RECIPES.recipeBuilder().EUt(8).duration(10).fluidInputs(new FluidStack(TinkerFluids.searedStone, 72)).notConsumable(MetaItems.SHAPE_MOLD_PLATE).outputs(GCMetaItems.SEARED_BRICK_PLATE.getStackForm()).buildAndRegister();
